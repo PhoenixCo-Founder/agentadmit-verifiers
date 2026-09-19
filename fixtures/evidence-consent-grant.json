@@ -1,0 +1,49 @@
+{
+  "connection_id": "conn_fixture0001",
+  "status": "active",
+  "evidence_available": true,
+  "tier": "hosted_vce",
+  "ceremony": {
+    "verified_at": "2026-09-19T17:00:00.000Z",
+    "method": "webauthn",
+    "uv": true,
+    "provenance": "hosted_witnessed"
+  },
+  "authenticator_assurance": {
+    "policy": "consumer",
+    "tier": "user_verified_unattested",
+    "attestation_format": null,
+    "aaguid": null
+  },
+  "commitment": {
+    "sha256": "eb0442e79dbf7333bae61b6e461dbf5f1cad60b7397a23d6af6fab6e3945bc85",
+    "preimage_version": 3,
+    "preimage": "{\"v\":3,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"session_id\":\"csess_fixture0001\",\"issued_at\":\"2026-09-19T16:59:00.000Z\"}"
+  },
+  "ledger": {
+    "granted_event_present": true,
+    "tamper_evident": true
+  },
+  "claim": "A user-verified passkey ceremony signed a commitment to these recorded grant parameters.",
+  "evidence": {
+    "v": 2,
+    "ceremony": "authentication",
+    "assurance": {
+      "policy": "consumer",
+      "authenticator": "user_verified_unattested",
+      "attestation_format": null,
+      "aaguid": null
+    },
+    "credential_id": "mx1-E-If2Y5oAk8TSLzpEg",
+    "public_key": "pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM",
+    "challenge": "6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU",
+    "commitment_preimage": "{\"v\":3,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"session_id\":\"csess_fixture0001\",\"issued_at\":\"2026-09-19T16:59:00.000Z\"}",
+    "response": {
+      "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+      "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw",
+      "signature": "MEUCIA9wffy_LHc1VZNKZUN9knmuAbyUYQFTPUD7KaxcnmxDAiEA52mZbjQYBOPQdLJdn3VANympPnV_ZwRZ6UZ4PHyfm7c"
+    },
+    "uv": true,
+    "verified_at": "2026-09-19T17:00:00.000Z"
+  }
+}
