@@ -67,6 +67,6 @@ These scripts are the published copy of the verifiers the AgentAdmit test suite 
 
 ## License
 
-MIT, with a scope notice: the license covers this verifier code only. The verifiers read exported records and apply standard SHA-256, ECDSA P-256, and WebAuthn checks; they do not implement the AgentAdmit authorization method, and the license grants no rights under AgentAdmit LLC's pending patents or to the AgentAdmit marks. See [LICENSE](LICENSE).
+MIT, with a scope notice: the license covers this verifier code only. The verifiers read exported records and apply standard SHA-256, ECDSA P-256, and WebAuthn checks; they do not implement the AgentAdmit authorization method, and the license grants no rights under AgentAdmit LLC's pending patents or to the AgentAdmit marks. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
 
 Questions or a record that fails: security@agentadmit.com.
