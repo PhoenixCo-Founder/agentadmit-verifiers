@@ -52,11 +52,11 @@ Legacy records: evidence written before authenticator assurance tiers shipped (`
 
 ## What is independent here
 
-The consent and audit chain verifiers apply only SHA-256 and HMAC-SHA-256 to the records in the export file. They contain no knowledge of the AgentAdmit service or its database, and they work on any export copy held outside the service.
+The consent and audit chain verifiers recompute SHA-256 fingerprints from the exported chain inputs. They contain no knowledge of the AgentAdmit service or its database, and they work on any export copy held outside the service.
 
 The consent evidence verifier (`verify-consent-evidence.mjs`) applies WebAuthn assertion verification: it checks that a user-verified passkey signed a commitment to the exact recorded parameters. By default it uses the authenticator public key carried in the export (`evidence.public_key`), which means verification trusts the export for that field.
 
-**To remove that dependency**, supply your own copy of the authenticator public key with `--trust <file.json>`. A trust file is a JSON array (or object) you create from your own enrollment records — for example, the COSE public key returned by your identity provider when the user enrolled the passkey, kept in your own secure store independently of AgentAdmit. When `--trust` is provided, the verifier checks that `evidence.public_key` matches your trusted key and uses your key for the ECDSA P-256 signature check. The export can no longer influence which key the signature is verified against.
+**To remove that dependency**, supply your own copy of the authenticator public key with `--trust <file.json>`. A trust file is a JSON array (or object) you create from your own enrollment records, kept in your own secure store independently of the export under review. The auditor is responsible for authenticating that enrollment record. When `--trust` is provided, the verifier checks that `evidence.public_key` matches your trusted key and uses your key for the ECDSA P-256 signature check. Only auditor-supplied keys are used for the signature check. An explicit `credential_id` limits a key to that credential; unscoped keys are tried until one verifies. A missing file argument, an unmatched credential, or unsigned legacy registration evidence fails trusted verification. JWK keys must specify EC P-256 (and ES256 if `alg` is present).
 
 The relying party (rpId and origin) can also be supplied independently via `--rp-id` / `--origin` or inside the trust file, removing any dependency on the defaults carried in the export.
 

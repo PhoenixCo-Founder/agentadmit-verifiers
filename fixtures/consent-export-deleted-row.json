@@ -25,14 +25,14 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "mx1-E-If2Y5oAk8TSLzpEg",
-          "public_key": "pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM",
+          "credential_id": "_17KTDYkJ9JadYV92fDUvg",
+          "public_key": "pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE",
           "challenge": "6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU",
           "commitment_preimage": "{\"v\":3,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"session_id\":\"csess_fixture0001\",\"issued_at\":\"2026-09-19T16:59:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw",
-            "signature": "MEUCIA9wffy_LHc1VZNKZUN9knmuAbyUYQFTPUD7KaxcnmxDAiEA52mZbjQYBOPQdLJdn3VANympPnV_ZwRZ6UZ4PHyfm7c"
+            "signature": "MEUCIQDs9U2Tzea9Wa-jday7JiWCfeL0pERgqfGWZyTwqhKrTgIgGfF7rTM2Lds9CA-GdVKo_rm-oZc3613oSYavY1S6wtA"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
@@ -40,8 +40,8 @@
       },
       "created_at": "2026-09-19T17:01:00.000000Z",
       "prev_hash": null,
-      "row_hash": "a68c98609c908dc0024dccfcf6b0ffb67c6cc6e66f1c678f57485b3bff57e932",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000001\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"mx1-E-If2Y5oAk8TSLzpEg\",\"public_key\":\"pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM\",\"challenge\":\"6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU\",\"commitment_preimage\":\"{\\\"v\\\":3,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"session_id\\\":\\\"csess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T16:59:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw\",\"signature\":\"MEUCIA9wffy_LHc1VZNKZUN9knmuAbyUYQFTPUD7KaxcnmxDAiEA52mZbjQYBOPQdLJdn3VANympPnV_ZwRZ6UZ4PHyfm7c\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:01:00.000000Z\n"
+      "row_hash": "e7c364f54ddd93b830a8b5c8245f2e8dd9c05c93a360eec98bc6b969c717c842",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000001\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"_17KTDYkJ9JadYV92fDUvg\",\"public_key\":\"pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE\",\"challenge\":\"6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU\",\"commitment_preimage\":\"{\\\"v\\\":3,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"session_id\\\":\\\"csess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T16:59:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw\",\"signature\":\"MEUCIQDs9U2Tzea9Wa-jday7JiWCfeL0pERgqfGWZyTwqhKrTgIgGfF7rTM2Lds9CA-GdVKo_rm-oZc3613oSYavY1S6wtA\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:01:00.000000Z\n"
     },
     {
       "id": "10000000-0000-4000-8000-000000000003",
@@ -85,23 +85,23 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "mx1-E-If2Y5oAk8TSLzpEg",
-          "public_key": "pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM",
+          "credential_id": "_17KTDYkJ9JadYV92fDUvg",
+          "public_key": "pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE",
           "challenge": "38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk",
           "commitment_preimage": "{\"v\":1,\"kind\":\"action_confirmation\",\"app_id\":\"app_fixture\",\"connection_id\":\"conn_fixture0001\",\"app_user_id\":\"user_fixture\",\"scope\":\"manage:subscription\",\"method\":\"POST\",\"endpoint\":\"/api/recurring-payments/subscribe-to-trainer\",\"request_digest\":\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\",\"summary\":\"Subscribe to Alex, $50/month\",\"session_id\":\"asess_fixture0001\",\"issued_at\":\"2026-09-19T17:05:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA",
-            "signature": "MEUCIGMJ2pGcfkwXqb1QJ1D5jMSbsCSdQu-2MmyYRU5Mo3r0AiEAvc9BfqBBUjf0Bi-rforJJfst9U9U9QrTI3u2EP7e-kQ"
+            "signature": "MEYCIQCAQcFJba2KXTxd-BAVr8JaDzfWNlByCHG42XRnYfnqRwIhAKYcZqm_34-iBXug2vprVDSy7H0Yr6nHWSRTGaMetx-S"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
         }
       },
       "created_at": "2026-09-19T17:04:00.000000Z",
-      "prev_hash": "67fc4e0e230317248668beed359a10d0d82efc022c512b3117bc57cac52035f5",
-      "row_hash": "28e1932618c6aecd56714b8c51abd0e5ee984c776d612575937fad9b0e039956",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000004\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified_action\nuser\nlive\nv1\n{\"session_id\":\"asess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"scope\":\"manage:subscription\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"mx1-E-If2Y5oAk8TSLzpEg\",\"public_key\":\"pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM\",\"challenge\":\"38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk\",\"commitment_preimage\":\"{\\\"v\\\":1,\\\"kind\\\":\\\"action_confirmation\\\",\\\"app_id\\\":\\\"app_fixture\\\",\\\"connection_id\\\":\\\"conn_fixture0001\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scope\\\":\\\"manage:subscription\\\",\\\"method\\\":\\\"POST\\\",\\\"endpoint\\\":\\\"/api/recurring-payments/subscribe-to-trainer\\\",\\\"request_digest\\\":\\\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\\\",\\\"summary\\\":\\\"Subscribe to Alex, $50/month\\\",\\\"session_id\\\":\\\"asess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T17:05:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA\",\"signature\":\"MEUCIGMJ2pGcfkwXqb1QJ1D5jMSbsCSdQu-2MmyYRU5Mo3r0AiEAvc9BfqBBUjf0Bi-rforJJfst9U9U9QrTI3u2EP7e-kQ\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:04:00.000000Z\n67fc4e0e230317248668beed359a10d0d82efc022c512b3117bc57cac52035f5"
+      "prev_hash": "f5f099b490a9ec04577c5662fa70fadb55d06d9dd67f50e8a71e60f2f705d430",
+      "row_hash": "01d123244fd208f367f1a2f476590e4b5996229362a365f17cdeef0d3d7413c9",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000004\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified_action\nuser\nlive\nv1\n{\"session_id\":\"asess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"scope\":\"manage:subscription\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"_17KTDYkJ9JadYV92fDUvg\",\"public_key\":\"pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE\",\"challenge\":\"38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk\",\"commitment_preimage\":\"{\\\"v\\\":1,\\\"kind\\\":\\\"action_confirmation\\\",\\\"app_id\\\":\\\"app_fixture\\\",\\\"connection_id\\\":\\\"conn_fixture0001\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scope\\\":\\\"manage:subscription\\\",\\\"method\\\":\\\"POST\\\",\\\"endpoint\\\":\\\"/api/recurring-payments/subscribe-to-trainer\\\",\\\"request_digest\\\":\\\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\\\",\\\"summary\\\":\\\"Subscribe to Alex, $50/month\\\",\\\"session_id\\\":\\\"asess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T17:05:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA\",\"signature\":\"MEYCIQCAQcFJba2KXTxd-BAVr8JaDzfWNlByCHG42XRnYfnqRwIhAKYcZqm_34-iBXug2vprVDSy7H0Yr6nHWSRTGaMetx-S\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:04:00.000000Z\nf5f099b490a9ec04577c5662fa70fadb55d06d9dd67f50e8a71e60f2f705d430"
     },
     {
       "id": "10000000-0000-4000-8000-000000000005",
@@ -137,9 +137,9 @@
         "reason": "user_revoked"
       },
       "created_at": "2026-09-19T17:06:00.000000Z",
-      "prev_hash": "28e1932618c6aecd56714b8c51abd0e5ee984c776d612575937fad9b0e039956",
-      "row_hash": "7f0fef4ac8faafbc06762c592d7a2233af66a189eef3a5dc1cb8208978f04f45",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000006\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_revoked\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"reason\":\"user_revoked\"}\n2026-09-19T17:06:00.000000Z\n28e1932618c6aecd56714b8c51abd0e5ee984c776d612575937fad9b0e039956"
+      "prev_hash": "01d123244fd208f367f1a2f476590e4b5996229362a365f17cdeef0d3d7413c9",
+      "row_hash": "4dd3cb43c22b2a1901f666186c78fe9dec425d4644ee359ea042d5ca28088a10",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000006\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_revoked\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"reason\":\"user_revoked\"}\n2026-09-19T17:06:00.000000Z\n01d123244fd208f367f1a2f476590e4b5996229362a365f17cdeef0d3d7413c9"
     }
   ],
   "count": 5,

@@ -9,5 +9,8 @@ jobs:
         with: { node-version: '22' }
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
+      - run: ./run-fixtures.sh
+      - run: node test-trust.mjs
       - run: node fixtures/generate.mjs
       - run: ./run-fixtures.sh
+      - run: node test-trust.mjs

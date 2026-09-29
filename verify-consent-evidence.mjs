@@ -26,7 +26,7 @@
  * independently by the auditor, removing the dependency on the public_key
  * field in the export itself. Each entry may carry a credential_id to select
  * the right key when an export contains multiple credentials; if omitted the
- * first entry is used. Keys are EC P-256 (ES256) in either COSE b64url or
+ * unscoped keys are tried until a signature verifies. Keys are EC P-256 (ES256) in either COSE b64url or
  * JWK object form. Format:
  *   [{ "credential_id": "...", "public_key": "<COSE b64url>" }]
  *   [{ "public_key": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." } }]
@@ -81,10 +81,13 @@ function cbor(buf) {
 // Each entry: { credential_id?, public_key: <COSE b64url string | JWK object> }
 let trustAuthenticators = null;
 const trustArg = opt('--trust', null);
+if (args.includes('--trust') && (!trustArg || trustArg.startsWith('--'))) {
+  console.error('--trust requires a file path'); process.exit(2);
+}
 if (trustArg) {
   const raw = JSON.parse(fs.readFileSync(trustArg, 'utf8'));
   const entries = Array.isArray(raw) ? raw : (raw.authenticators ?? []);
-  if (entries.length === 0) { console.error(`--trust: no authenticators found in ${trustArg}`); process.exit(2); }
+  if (!Array.isArray(entries) || entries.length === 0) { console.error(`--trust: no authenticators found in ${trustArg}`); process.exit(2); }
   if (!Array.isArray(raw)) {
     if (raw.rp_id && RP_ID === null) RP_ID = raw.rp_id;
     if (raw.origin && ORIGIN === null) ORIGIN = raw.origin;
@@ -98,7 +101,7 @@ if (trustArg) {
       const kty = coseMap.get(1), alg = coseMap.get(3), crv = coseMap.get(-1);
       x = coseMap.get(-2); y = coseMap.get(-3);
       if (kty !== 2 || crv !== 1 || alg !== -7) throw new Error(`--trust entry [${idx}]: expected EC2/P-256/ES256, got kty=${kty} crv=${crv} alg=${alg}`);
-    } else if (pk && typeof pk === 'object' && pk.kty === 'EC') {
+    } else if (pk && typeof pk === 'object' && pk.kty === 'EC' && pk.crv === 'P-256' && (!pk.alg || pk.alg === 'ES256') && !pk.d) {
       x = b64u(pk.x); y = b64u(pk.y);
     } else {
       throw new Error(`--trust entry [${idx}]: public_key must be a COSE b64url string or a JWK object`);
@@ -133,6 +136,7 @@ function verifyEvidence(ev, ctx = {}) {
   check('clientDataJSON.challenge == committed challenge', clientData?.challenge === challenge);
   check('clientDataJSON.origin == expected origin', clientData?.origin === ORIGIN, clientData?.origin ?? '');
   if (ev.ceremony === 'registration' && resp.attestationObject && !resp.signature) {
+    if (trustAuthenticators) check('trusted verification requires an assertion signature', false);
     // Legacy v1 record where the enrollment itself was the evidence. The
     // challenge is bound inside clientDataJSON, but with attestation format
     // 'none' nothing signs it: structure is checkable, a signature is not.
@@ -245,12 +249,20 @@ let allPass = true;
 let anyLegacy = false;
 if (trustAuthenticators) console.log(`trust: ${trustAuthenticators.length} auditor-supplied authenticator key(s) loaded from ${trustArg}`);
 for (const t of targets) {
-  let trust = null;
+  let verification;
   if (trustAuthenticators) {
-    trust = trustAuthenticators.find((a) => !a.credential_id || a.credential_id === t.ev.credential_id)
-          ?? trustAuthenticators[0];
+    const candidates = trustAuthenticators.filter((a) => !a.credential_id || a.credential_id === t.ev.credential_id);
+    const attempts = candidates.map((trust) => verifyEvidence(t.ev, { ...t.ctx, trust }));
+    verification = attempts.find((v) => v.results.every((r) => r[0])) ?? attempts[0];
+    if (!verification) {
+      console.log(`FAIL  no trusted key for credential ${t.ev.credential_id}`);
+      allPass = false;
+      continue;
+    }
+  } else {
+    verification = verifyEvidence(t.ev, t.ctx);
   }
-  const { results, kind, pre, legacyRegistration } = verifyEvidence(t.ev, { ...t.ctx, trust });
+  const { results, kind, pre, legacyRegistration } = verification;
   if (legacyRegistration) anyLegacy = true;
   const pass = results.filter((r) => r[0]).length;
   console.log(`== ${t.label}  (${kind})`);
