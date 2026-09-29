@@ -34,14 +34,14 @@
       "attestation_format": null,
       "aaguid": null
     },
-    "credential_id": "mx1-E-If2Y5oAk8TSLzpEg",
-    "public_key": "pQECAyYgASFYIP455Zgn3J8nqLmysWj7x6l2YVl1NKaSDxcoVftHbi45Ilgg14FS0V7L2jGh8FaY1o-3pvuPX3KtQKBYX75OJcU6zCM",
+    "credential_id": "_17KTDYkJ9JadYV92fDUvg",
+    "public_key": "pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE",
     "challenge": "6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU",
     "commitment_preimage": "{\"v\":3,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"session_id\":\"csess_fixture0001\",\"issued_at\":\"2026-09-19T16:59:00.000Z\"}",
     "response": {
       "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
       "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw",
-      "signature": "MEUCIA9wffy_LHc1VZNKZUN9knmuAbyUYQFTPUD7KaxcnmxDAiEA52mZbjQYBOPQdLJdn3VANympPnV_ZwRZ6UZ4PHyfm7c"
+      "signature": "MEUCIQDs9U2Tzea9Wa-jday7JiWCfeL0pERgqfGWZyTwqhKrTgIgGfF7rTM2Lds9CA-GdVKo_rm-oZc3613oSYavY1S6wtA"
     },
     "uv": true,
     "verified_at": "2026-09-19T17:00:00.000Z"
