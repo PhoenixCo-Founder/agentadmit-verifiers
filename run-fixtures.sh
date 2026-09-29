@@ -20,4 +20,6 @@ expect 0 "evidence: action confirmation (bare object)" node verify-consent-evide
 expect 0 "evidence: every ceremony in a consent export" node verify-consent-evidence.mjs fixtures/consent-export-valid.json
 expect 1 "evidence: preimage altered after signing"    node verify-consent-evidence.mjs fixtures/evidence-tampered.json
 expect 1 "evidence: --expect mismatch detected"        node verify-consent-evidence.mjs fixtures/evidence-action-confirmation.json --expect '{"summary":"Subscribe to Alex, $5,000/month"}'
+expect 0 "evidence: --trust valid COSE key passes"     node verify-consent-evidence.mjs fixtures/evidence-consent-grant.json --trust fixtures/trust-valid.json
+expect 1 "evidence: --trust wrong key fails"           node verify-consent-evidence.mjs fixtures/evidence-consent-grant.json --trust fixtures/trust-wrong-key.json
 exit $fail

@@ -10,7 +10,7 @@
  * boundary change.
  *
  * Usage:
- *   node verify-consent-evidence.mjs <file.json> [--expect '<json>'] [--rp-id agentadmit.com] [--origin https://agentadmit.com]
+ *   node verify-consent-evidence.mjs <file.json> [--expect '<json>'] [--rp-id agentadmit.com] [--origin https://agentadmit.com] [--trust trust.json]
  *
  * <file.json> may be any of:
  *   - GET /api/v1/connections/{id}/evidence?include_raw=true  (evidence endpoint body)
@@ -21,6 +21,16 @@
  * --expect binds the signed commitment to values you already know (for
  * example the scopes your app recorded). Every key you pass must equal the
  * same key inside the signed preimage.
+ *
+ * --trust <file.json> supplies one or more authenticator public keys held
+ * independently by the auditor, removing the dependency on the public_key
+ * field in the export itself. Each entry may carry a credential_id to select
+ * the right key when an export contains multiple credentials; if omitted the
+ * first entry is used. Keys are EC P-256 (ES256) in either COSE b64url or
+ * JWK object form. Format:
+ *   [{ "credential_id": "...", "public_key": "<COSE b64url>" }]
+ *   [{ "public_key": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." } }]
+ * or wrap in { "rp_id", "origin", "authenticators": [...] } to override rp/origin too.
  *
  * Ceiling, stated plainly: this proves what the authenticator signed and
  * that a user-verified ceremony produced the signature over that exact
@@ -33,7 +43,7 @@ import fs from 'node:fs';
 const args = process.argv.slice(2);
 const opt = (name, dflt) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : dflt; };
 const file = args.find((a, i) => !a.startsWith('--') && (i === 0 || !args[i - 1].startsWith('--')));
-if (!file) { console.error('usage: node verify-consent-evidence.mjs <file.json> [--expect json] [--rp-id id] [--origin url]'); process.exit(2); }
+if (!file) { console.error('usage: node verify-consent-evidence.mjs <file.json> [--expect json] [--rp-id id] [--origin url] [--trust trust.json]'); process.exit(2); }
 const expected = opt('--expect', null) ? JSON.parse(opt('--expect')) : null;
 let RP_ID = opt('--rp-id', null);
 let ORIGIN = opt('--origin', null);
@@ -64,6 +74,39 @@ function cbor(buf) {
     throw new Error(`cbor: unsupported major ${major}`);
   };
   return item();
+}
+
+// Parse --trust file (after cbor/b64u are defined)
+// Format: array or { rp_id?, origin?, authenticators: [] }
+// Each entry: { credential_id?, public_key: <COSE b64url string | JWK object> }
+let trustAuthenticators = null;
+const trustArg = opt('--trust', null);
+if (trustArg) {
+  const raw = JSON.parse(fs.readFileSync(trustArg, 'utf8'));
+  const entries = Array.isArray(raw) ? raw : (raw.authenticators ?? []);
+  if (entries.length === 0) { console.error(`--trust: no authenticators found in ${trustArg}`); process.exit(2); }
+  if (!Array.isArray(raw)) {
+    if (raw.rp_id && RP_ID === null) RP_ID = raw.rp_id;
+    if (raw.origin && ORIGIN === null) ORIGIN = raw.origin;
+  }
+  trustAuthenticators = entries.map((e, idx) => {
+    const pk = Object.prototype.hasOwnProperty.call(e, 'public_key') ? e.public_key : e;
+    let x, y, keyObj;
+    if (typeof pk === 'string') {
+      let coseMap;
+      try { coseMap = cbor(b64u(pk)); } catch (err) { throw new Error(`--trust entry [${idx}]: COSE parse error: ${err.message}`); }
+      const kty = coseMap.get(1), alg = coseMap.get(3), crv = coseMap.get(-1);
+      x = coseMap.get(-2); y = coseMap.get(-3);
+      if (kty !== 2 || crv !== 1 || alg !== -7) throw new Error(`--trust entry [${idx}]: expected EC2/P-256/ES256, got kty=${kty} crv=${crv} alg=${alg}`);
+    } else if (pk && typeof pk === 'object' && pk.kty === 'EC') {
+      x = b64u(pk.x); y = b64u(pk.y);
+    } else {
+      throw new Error(`--trust entry [${idx}]: public_key must be a COSE b64url string or a JWK object`);
+    }
+    try { keyObj = crypto.createPublicKey({ key: { kty: 'EC', crv: 'P-256', x: b64uEnc(x), y: b64uEnc(y) }, format: 'jwk' }); }
+    catch (err) { throw new Error(`--trust entry [${idx}]: key import failed: ${err.message}`); }
+    return { credential_id: e.credential_id ?? null, keyObj, x: Buffer.from(x), y: Buffer.from(y) };
+  });
 }
 
 /** Verify one evidence object. Returns [ok, name, detail][] */
@@ -128,13 +171,23 @@ function verifyEvidence(ev, ctx = {}) {
     check('evidence.public_key == enrolled authenticator key', ev.public_key === ctx.enrolled.public_key);
     check('evidence.credential_id == enrolled credential', ev.credential_id === ctx.enrolled.credential_id);
   }
+  let verifyKey;
+  if (ctx.trust) {
+    const tx = ctx.trust.x, ty = ctx.trust.y;
+    const coordsMatch = x && y && tx && ty && Buffer.from(x).equals(tx) && Buffer.from(y).equals(ty);
+    check('evidence.public_key x,y == auditor-supplied trusted key', coordsMatch);
+    verifyKey = ctx.trust.keyObj;
+  } else {
+    try { verifyKey = crypto.createPublicKey({ key: { kty: 'EC', crv: 'P-256', x: b64uEnc(x), y: b64uEnc(y) }, format: 'jwk' }); }
+    catch { verifyKey = null; }
+  }
   let sigOk = false;
   try {
-    const key = crypto.createPublicKey({ key: { kty: 'EC', crv: 'P-256', x: b64uEnc(x), y: b64uEnc(y) }, format: 'jwk' });
     const signed = Buffer.concat([authData, sha256(b64u(resp.clientDataJSON))]);
-    sigOk = crypto.verify('sha256', signed, { key, dsaEncoding: 'der' }, b64u(resp.signature));
+    sigOk = verifyKey !== null && crypto.verify('sha256', signed, { key: verifyKey, dsaEncoding: 'der' }, b64u(resp.signature));
   } catch { sigOk = false; }
-  check('ECDSA P-256 signature verifies with the recorded public key', sigOk);
+  const sigLabel = ctx.trust ? 'ECDSA P-256 signature verifies with the auditor-supplied trusted key' : 'ECDSA P-256 signature verifies with the recorded public key';
+  check(sigLabel, sigOk);
   if (ev.registration) {
     let rcd = null; try { rcd = JSON.parse(b64u(ev.registration.response.clientDataJSON).toString('utf8')); } catch { rcd = null; }
     check('registration clientDataJSON: type webauthn.create, same challenge + origin', rcd?.type === 'webauthn.create' && rcd?.challenge === challenge && rcd?.origin === ORIGIN);
@@ -190,8 +243,14 @@ if (Array.isArray(doc?.events)) {
 
 let allPass = true;
 let anyLegacy = false;
+if (trustAuthenticators) console.log(`trust: ${trustAuthenticators.length} auditor-supplied authenticator key(s) loaded from ${trustArg}`);
 for (const t of targets) {
-  const { results, kind, pre, legacyRegistration } = verifyEvidence(t.ev, t.ctx);
+  let trust = null;
+  if (trustAuthenticators) {
+    trust = trustAuthenticators.find((a) => !a.credential_id || a.credential_id === t.ev.credential_id)
+          ?? trustAuthenticators[0];
+  }
+  const { results, kind, pre, legacyRegistration } = verifyEvidence(t.ev, { ...t.ctx, trust });
   if (legacyRegistration) anyLegacy = true;
   const pass = results.filter((r) => r[0]).length;
   console.log(`== ${t.label}  (${kind})`);
