@@ -18,6 +18,8 @@
  *   evidence-consent-grant.json       verify-consent-evidence.mjs PASS (evidence endpoint shape)
  *   evidence-action-confirmation.json verify-consent-evidence.mjs PASS (bare evidence object)
  *   evidence-tampered.json            verify-consent-evidence.mjs FAIL (preimage altered after signing)
+ *   trust-valid.json                  --trust flag                PASS (matching COSE key)
+ *   trust-wrong-key.json              --trust flag                FAIL (different P-256 key)
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -187,4 +189,16 @@ write('evidence-action-confirmation.json', actionEvidence);
   tampered.commitment_preimage = tampered.commitment_preimage.replace('$50/month', '$5,000/month');
   write('evidence-tampered.json', tampered);
 }
+// ---------- trust fixtures for --trust flag tests ----------
+// trust-valid.json: the same COSE key used to sign the evidence fixtures
+write('trust-valid.json', [{ credential_id: credentialId, public_key: coseKey }]);
+// trust-wrong-key.json: a different P-256 key (signature must fail)
+const { publicKey: wrongPub } = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' });
+const wrongJwk = wrongPub.export({ format: 'jwk' });
+const wrongCoseKey = b64u(cborEncode(new Map([
+  [1, 2], [3, -7], [-1, 1],
+  [-2, Buffer.from(wrongJwk.x, 'base64url')], [-3, Buffer.from(wrongJwk.y, 'base64url')],
+])));
+write('trust-wrong-key.json', [{ credential_id: credentialId, public_key: wrongCoseKey }]);
+
 console.log('fixtures regenerated with a fresh synthetic passkey');
