@@ -46,6 +46,8 @@ expect 0 "audit outcome: format2 valid outcome row"    python3 verify_audit_chai
 expect 1 "audit outcome: tampered outcome copy"        python3 verify_audit_chain.py "$tmpdir/audit-outcome-tampered-copy.json"
 expect 1 "audit outcome: tampered status class copy"   python3 verify_audit_chain.py "$tmpdir/audit-outcome-tampered-status.json"
 rm -rf "$tmpdir"
+expect 0 "anchor: valid signed anchor"                 python3 verify_audit_chain.py --verify-anchor fixtures/anchor-valid.json --public-key fixtures/anchor-public-key.pem
+expect 1 "anchor: tampered payload rejected"           python3 verify_audit_chain.py --verify-anchor fixtures/anchor-tampered.json --public-key fixtures/anchor-public-key.pem
 expect 0 "consent chain: valid"                        python3 verify_consent_chain.py fixtures/consent-export-valid.json
 expect 1 "consent chain: deleted row detected"         python3 verify_consent_chain.py fixtures/consent-export-deleted-row.json
 expect 0 "evidence: grant (evidence endpoint shape)"   node verify-consent-evidence.mjs fixtures/evidence-consent-grant.json --expect '{"scopes":["read:profile","read:workouts"],"duration":"30d"}'

@@ -4,12 +4,19 @@ PUBLISHED COPY: https://github.com/PhoenixCo-Founder/agentadmit-verifiers
 (keep this file and the public one identical; the test suite runs this copy).
 
 verify_audit_chain.py - third-party verifier for the AgentAdmit per-call audit
-trail's tamper-evident hash chain. Standard library only; no network.
+trail's tamper-evident hash chain. Standard library only; no network for audit
+chain verification. Anchor signature verification requires `cryptography`:
+  pip install cryptography
 
 Usage:
   python3 verify_audit_chain.py audit-export.json
   curl -s "https://agentadmit.com/api/v1/audit/export?environment=live&format=json" \
     -H "Authorization: Bearer $AGENTADMIT_API_KEY" | python3 verify_audit_chain.py -
+
+  # Verify a signed daily chain-head anchor (requires `cryptography`):
+  python3 verify_audit_chain.py --verify-anchor anchor.json --public-key app_public_key.pem
+    where anchor.json is the body of GET /api/v1/audit/chain-head
+    and   app_public_key.pem is the SPKI PEM from GET /api/v1/apps/{app_id} field public_key
 
 Input: the JSON body of GET /api/v1/audit/export (an object with "rows"), or a
 bare JSON array of rows. Combine pages in export order before verifying; for
@@ -43,6 +50,74 @@ import sys
 import uuid
 
 SUPPORTED_FORMAT_VERSION = 2
+ANCHOR_TYPE = "agentadmit.audit.chain_head.v1"
+
+
+def verify_anchor(anchor_path: str, public_key_path: str) -> int:
+    """Verify a signed daily chain-head anchor from GET /api/v1/audit/chain-head.
+
+    Requires: pip install cryptography
+    The canonical payload is JSON.stringify(payload) with the exact key order
+    returned by the endpoint (sorted lexicographically, RFC 8785 JCS subset).
+    The signature is base64url(RSA-SHA256(UTF-8(canonical_json))).
+    """
+    try:
+        from cryptography.hazmat.primitives import hashes, serialization
+        from cryptography.hazmat.primitives.asymmetric import padding
+        from cryptography.exceptions import InvalidSignature
+    except ImportError:
+        print("FAIL: anchor signature verification requires `cryptography` (pip install cryptography)")
+        return 2
+
+    import base64
+
+    raw = sys.stdin.read() if anchor_path == "-" else open(anchor_path, encoding="utf-8").read()
+    anchor = json.loads(raw)
+    payload = anchor.get("payload")
+    signature_b64 = anchor.get("signature")
+    kid = anchor.get("kid")
+    if not payload or not signature_b64 or not kid:
+        print("FAIL: anchor JSON must contain payload, signature, and kid")
+        return 1
+
+    expected_type = payload.get("type")
+    if expected_type != ANCHOR_TYPE:
+        print(f"FAIL: unexpected anchor type {expected_type!r}; expected {ANCHOR_TYPE!r}")
+        return 1
+
+    # Verify the key order matches lexicographic sort (JCS).
+    keys = list(payload.keys())
+    if keys != sorted(keys):
+        print(f"FAIL: payload keys are not in lexicographic order: {keys}")
+        return 1
+
+    canonical_bytes = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+
+    # Pad the base64url to a multiple of 4 before decoding.
+    sig_bytes = base64.urlsafe_b64decode(signature_b64 + "==")
+
+    pub_pem = open(public_key_path, "rb").read()
+    public_key = serialization.load_pem_public_key(pub_pem)
+
+    try:
+        public_key.verify(sig_bytes, canonical_bytes, padding.PKCS1v15(), hashes.SHA256())
+    except InvalidSignature:
+        print("FAIL: RSA-SHA256 signature verification failed — anchor may have been tampered with")
+        return 1
+    except Exception as exc:
+        print(f"FAIL: signature verification error: {exc}")
+        return 1
+
+    app_id = payload.get("app_id", "?")
+    environment = payload.get("environment", "?")
+    head_hash = payload.get("head_hash", "?")
+    head_seq = payload.get("head_seq", "?")
+    anchored_at = payload.get("anchored_at", "?")
+    print(f"ANCHOR VALID  kid={kid}  app={app_id}  env={environment}")
+    print(f"  anchored_at={anchored_at}  head_seq={head_seq}  head_hash={str(head_hash)[:32]}...")
+    print("  RSA-SHA256 signature verified against provided public key.")
+    print("  Cross-check: export rows after this anchor should have this hash as prev_hash on the first retained row.")
+    return 0
 
 
 def check_outcome_binding(row):
@@ -101,7 +176,19 @@ def check_outcome_binding(row):
 
 
 def main() -> int:
-    src = sys.argv[1] if len(sys.argv) > 1 else "-"
+    args = sys.argv[1:]
+    if args and args[0] == "--verify-anchor":
+        anchor_path = args[1] if len(args) > 1 else "-"
+        public_key_path = None
+        for i, a in enumerate(args):
+            if a == "--public-key" and i + 1 < len(args):
+                public_key_path = args[i + 1]
+        if public_key_path is None:
+            print("Usage: verify_audit_chain.py --verify-anchor anchor.json --public-key app_public_key.pem")
+            return 2
+        return verify_anchor(anchor_path, public_key_path)
+
+    src = args[0] if args else "-"
     raw = sys.stdin.read() if src == "-" else open(src, encoding="utf-8").read()
     data = json.loads(raw)
     if isinstance(data, dict):
