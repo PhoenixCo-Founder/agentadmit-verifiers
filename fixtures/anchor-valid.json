@@ -1,0 +1,14 @@
+{
+  "payload": {
+    "anchored_at": "2026-09-30T04:05:00.000Z",
+    "app_id": "test_app_anchor_001",
+    "environment": "live",
+    "head_hash": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+    "head_row_id": "00000000-0000-4000-8000-000000000099",
+    "head_seq": 42,
+    "type": "agentadmit.audit.chain_head.v1"
+  },
+  "signature": "h6rdDibSV5-wOXTye0fE_MZfdPScq_dpxOw_tBnXIeAaEo7k6dcj0smnQZi49tknhG_xBnqz3tuxthXQnS4aCyp0dAmlXWw19F_qq-7DrrQU6yryzz2wp7yW_xPjl3LgM9N6nMNNcm7SK6elxOhBwBUxewmZ3a1hVhqWIhaJmzTf4yPcBJPeohKRNAlCXufppBgLkR28Nll8sj9qL8hPKKZZIM6hsDnD57IBYSB-Toe192ClZVxMQVAotsisvWbq_3pk3ho1t1v9QYXiyYomhiwgbCeMb8ouJLsY6Km3ll4qVLN9nybIdbJJYn3KcgiJHkJrnkLLzFlXD9-dJmXpVg",
+  "kid": "test_kid_001",
+  "chain_updated_at": "2026-09-30T04:00:00.000Z"
+}
