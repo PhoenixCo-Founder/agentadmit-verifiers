@@ -115,6 +115,34 @@ const actionPreimage = '{' + [
 ].join(',') + '}';
 
 const grantEvidence = assertion(grantPreimage, 7);
+
+// ---------- v4 grant: catalog_digest over the scope-catalog snapshot (064) ----------
+const catalogSnapshot = { v: 1, scopes: [
+  { name: 'read:profile', registered: true, description: 'Read your name, goals and training preferences', category: 'Profile', confirm_each_time: false, endpoint_map_sha256: sha256hex('[{"method":"GET","path":"/api/profile"}]') },
+  { name: 'read:workouts', registered: true, description: 'Read your logged workouts', category: 'Fitness', confirm_each_time: false, endpoint_map_sha256: null },
+] };
+function canonicalScopeCatalog(snapshot) {
+  const entries = [...snapshot.scopes].sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)).map((e) => '{' + [
+    `"name":${JSON.stringify(e.name)}`, `"registered":${e.registered ? 'true' : 'false'}`, `"description":${JSON.stringify(e.description ?? null)}`,
+    `"category":${JSON.stringify(e.category ?? null)}`, `"confirm_each_time":${JSON.stringify(e.confirm_each_time ?? null)}`, `"endpoint_map_sha256":${JSON.stringify(e.endpoint_map_sha256 ?? null)}`,
+  ].join(',') + '}');
+  return `{"v":${snapshot.v},"scopes":[${entries.join(',')}]}`;
+}
+const catalogDigest = sha256hex(canonicalScopeCatalog(catalogSnapshot));
+const grantPreimageV4 = '{' + [
+  '"v":4',
+  '"app_id":"app_fixture"',
+  '"app_user_id":"user_fixture"',
+  '"scopes":["read:profile","read:workouts"]',
+  '"duration":"30d"',
+  '"purpose":"Weekly training summary"',
+  '"user_intent":"Summarize my workouts every Sunday"',
+  '"bounds":null',
+  `"catalog_digest":"${catalogDigest}"`,
+  '"session_id":"csess_fixture0002"',
+  '"issued_at":"2026-10-30T19:00:00.000Z"',
+].join(',') + '}';
+const grantEvidenceV4 = assertion(grantPreimageV4, 9);
 const actionEvidence = assertion(actionPreimage, 8);
 
 // ---------- audit export (per-call chain, migration 057 shape) ----------
@@ -160,6 +188,10 @@ function consentEvents() {
   };
   push('presence_verified', { session_id: 'csess_fixture0001', connection_id: 'conn_fixture0001', method: 'webauthn', evidence: grantEvidence });
   push('connection_granted', { connection_id: 'conn_fixture0001', scopes: ['read:profile', 'read:workouts'], agent_label: 'Coach', purpose: 'Weekly training summary', user_intent: 'Summarize my workouts every Sunday' });
+  // A second grant whose v4 ceremony bound the scope-catalog digest; the
+  // verifier pairs the granted event's snapshot with the ceremony evidence.
+  push('presence_verified', { session_id: 'csess_fixture0002', connection_id: 'conn_fixture0002', method: 'webauthn', evidence: grantEvidenceV4 });
+  push('connection_granted', { connection_id: 'conn_fixture0002', scopes: ['read:profile', 'read:workouts'], agent_label: 'Coach', purpose: 'Weekly training summary', user_intent: 'Summarize my workouts every Sunday', scope_catalog: catalogSnapshot, scope_catalog_digest: catalogDigest });
   push('evaluated_allow', { connection_id: 'conn_fixture0001', scope: 'read:profile' }, false);
   push('presence_verified_action', { session_id: 'asess_fixture0001', connection_id: 'conn_fixture0001', scope: 'manage:subscription', evidence: actionEvidence });
   push('evaluated_allow', { connection_id: 'conn_fixture0001', scope: 'read:workouts' }, false);
@@ -184,6 +216,27 @@ write('evidence-consent-grant.json', {
   evidence: grantEvidence,
 });
 write('evidence-action-confirmation.json', actionEvidence);
+{
+  const body = {
+    connection_id: 'conn_fixture0002',
+    status: 'active',
+    evidence_available: true,
+    tier: 'hosted_vce',
+    ceremony: { verified_at: grantEvidenceV4.verified_at, method: 'webauthn', uv: true, provenance: 'hosted_witnessed' },
+    authenticator_assurance: { policy: 'consumer', tier: 'user_verified_unattested', attestation_format: null, aaguid: null },
+    commitment: { sha256: sha256hex(grantPreimageV4), preimage_version: 4, preimage: grantPreimageV4 },
+    scope_catalog: { digest: catalogDigest, scope_count: 2, unregistered_at_grant: [], bound_in_commitment: true, scopes: catalogSnapshot.scopes },
+    ledger: { granted_event_present: true, tamper_evident: true },
+    claim: 'A user-verified passkey ceremony signed a commitment to these recorded grant parameters.',
+    evidence: grantEvidenceV4,
+  };
+  write('evidence-consent-grant-v4.json', body);
+  // The description was edited after the ceremony: the recomputed digest no
+  // longer matches what the authenticator signed.
+  const edited = JSON.parse(JSON.stringify(body));
+  edited.scope_catalog.scopes[1].description = 'Read your logged workouts and your location history';
+  write('evidence-catalog-description-edited.json', edited);
+}
 {
   const tampered = JSON.parse(JSON.stringify(actionEvidence));
   tampered.commitment_preimage = tampered.commitment_preimage.replace('$50/month', '$5,000/month');

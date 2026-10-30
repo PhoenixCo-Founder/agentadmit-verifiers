@@ -52,6 +52,24 @@ const b64u = (s) => Buffer.from(s, 'base64url');
 const b64uEnc = (b) => Buffer.from(b).toString('base64url');
 const sha256 = (b) => crypto.createHash('sha256').update(b).digest();
 
+/** Canonical form of a scope-catalog snapshot (FORMATS.md section 5), built
+ *  explicitly in the service's fixed key order so the digest is recomputable
+ *  from the exported entries alone. */
+function canonicalScopeCatalog(snapshot) {
+  const entries = [...snapshot.scopes]
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+    .map((e) => '{' + [
+      `"name":${JSON.stringify(e.name)}`,
+      `"registered":${e.registered ? 'true' : 'false'}`,
+      `"description":${JSON.stringify(e.description ?? null)}`,
+      `"category":${JSON.stringify(e.category ?? null)}`,
+      `"confirm_each_time":${JSON.stringify(e.confirm_each_time ?? null)}`,
+      `"endpoint_map_sha256":${JSON.stringify(e.endpoint_map_sha256 ?? null)}`,
+    ].join(',') + '}');
+  return `{"v":${snapshot.v ?? 1},"scopes":[${entries.join(',')}]}`;
+}
+const scopeCatalogDigest = (snapshot) => sha256(Buffer.from(canonicalScopeCatalog(snapshot), 'utf8')).toString('hex');
+
 // --- minimal CBOR decoder (maps, arrays, byte/text strings, ints, negatives, simple values) ---
 function cbor(buf) {
   let i = 0;
@@ -127,6 +145,21 @@ function verifyEvidence(ev, ctx = {}) {
   if (expected && pre) {
     const bad = Object.keys(expected).filter((k) => JSON.stringify(pre[k]) !== JSON.stringify(expected[k]));
     check('preimage binds every --expect field', bad.length === 0, bad.length ? `mismatch: ${bad.join(', ')}` : `${Object.keys(expected).length} fields bound`);
+  }
+  // v4 grant commitments bind catalog_digest: SHA-256 of the canonical
+  // scope-catalog snapshot (what each granted scope's description, category,
+  // confirm flag and endpoint-map hash were at grant time). When the record
+  // supplies the entries, recompute and compare: a description edited after
+  // the ceremony no longer matches what the authenticator signed.
+  if (pre && typeof pre.catalog_digest === 'string') {
+    const cat = ctx.scopeCatalog;
+    if (cat && Array.isArray(cat.scopes)) {
+      const recomputed = scopeCatalogDigest(cat);
+      check('catalog_digest == SHA-256(canonical scope-catalog snapshot)', recomputed === pre.catalog_digest, `${cat.scopes.length} scope entr${cat.scopes.length === 1 ? 'y' : 'ies'}`);
+      if (typeof cat.digest === 'string') check('scope_catalog.digest matches the recomputed digest', cat.digest === recomputed);
+    } else {
+      check('catalog_digest present; entries not supplied, descriptions not checked (evidence endpoint: include_raw=true)', true, 'informational');
+    }
   }
   const challenge = b64uEnc(sha256(Buffer.from(preimage ?? '', 'utf8')));
   check('challenge == base64url(SHA-256(preimage))', challenge === ev.challenge);
@@ -226,16 +259,26 @@ console.log(`relying party: rp_id=${RP_ID} origin=${ORIGIN}`);
 const targets = [];
 if (Array.isArray(doc?.rows)) { console.error('This is a per-call audit export. Use verify_audit_chain.py for the chain; audit rows carry no passkey evidence.'); process.exit(2); }
 if (Array.isArray(doc?.events)) {
+  // connection_granted events carry the grant-time scope-catalog snapshot;
+  // pair it with the ceremony evidence of the same connection.
+  const catalogs = new Map();
+  for (const e of doc.events) {
+    const cat = e?.metadata?.scope_catalog;
+    if (e?.event === 'connection_granted' && cat && Array.isArray(cat.scopes) && e?.metadata?.connection_id) catalogs.set(e.metadata.connection_id, cat);
+  }
   for (const e of doc.events) {
     const ev = e?.metadata?.evidence;
-    if (ev && typeof ev === 'object') targets.push({ label: `${e.event} ${e.id ?? ''}`.trim(), ev, ctx: {} });
+    if (ev && typeof ev === 'object') {
+      const cat = e?.metadata?.connection_id ? catalogs.get(e.metadata.connection_id) : undefined;
+      targets.push({ label: `${e.event} ${e.id ?? ''}`.trim(), ev, ctx: cat ? { scopeCatalog: cat } : {} });
+    }
   }
   if (targets.length === 0) { console.error('No events with metadata.evidence in this export (only hosted ceremonies produce evidence).'); process.exit(2); }
 } else if (doc?.session?.evidence) {
   targets.push({ label: 'bundle', ev: doc.session.evidence, ctx: { sessionPreimage: doc.session.commitment_preimage, enrolled: doc.authenticator } });
 } else if (doc?.evidence && doc?.tier !== undefined) {
   if (doc.tier !== 'hosted_vce') { console.error(`Evidence tier is "${doc.tier}", not hosted_vce: no independently verifiable evidence exists for this record (reason: ${doc.reason ?? 'n/a'}).`); process.exit(2); }
-  targets.push({ label: `connection ${doc.connection_id}`, ev: doc.evidence, ctx: { sessionPreimage: doc.commitment?.preimage, commitmentSha256: doc.commitment?.sha256 } });
+  targets.push({ label: `connection ${doc.connection_id}`, ev: doc.evidence, ctx: { sessionPreimage: doc.commitment?.preimage, commitmentSha256: doc.commitment?.sha256, scopeCatalog: doc.scope_catalog ?? undefined } });
 } else if (doc?.evidence?.response && doc?.commitment_preimage !== undefined) {
   targets.push({ label: 'evidence', ev: doc.evidence, ctx: { sessionPreimage: doc.commitment_preimage } });
 } else if (doc?.response && doc?.challenge) {

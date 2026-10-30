@@ -1,0 +1,73 @@
+{
+  "connection_id": "conn_fixture0002",
+  "status": "active",
+  "evidence_available": true,
+  "tier": "hosted_vce",
+  "ceremony": {
+    "verified_at": "2026-09-19T17:00:00.000Z",
+    "method": "webauthn",
+    "uv": true,
+    "provenance": "hosted_witnessed"
+  },
+  "authenticator_assurance": {
+    "policy": "consumer",
+    "tier": "user_verified_unattested",
+    "attestation_format": null,
+    "aaguid": null
+  },
+  "commitment": {
+    "sha256": "797591f9e9e24bcfe186e0983bce556916b9b4b5781302568b80597e53fb2b02",
+    "preimage_version": 4,
+    "preimage": "{\"v\":4,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"session_id\":\"csess_fixture0002\",\"issued_at\":\"2026-10-30T19:00:00.000Z\"}"
+  },
+  "scope_catalog": {
+    "digest": "6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93",
+    "scope_count": 2,
+    "unregistered_at_grant": [],
+    "bound_in_commitment": true,
+    "scopes": [
+      {
+        "name": "read:profile",
+        "registered": true,
+        "description": "Read your name, goals and training preferences",
+        "category": "Profile",
+        "confirm_each_time": false,
+        "endpoint_map_sha256": "96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0"
+      },
+      {
+        "name": "read:workouts",
+        "registered": true,
+        "description": "Read your logged workouts",
+        "category": "Fitness",
+        "confirm_each_time": false,
+        "endpoint_map_sha256": null
+      }
+    ]
+  },
+  "ledger": {
+    "granted_event_present": true,
+    "tamper_evident": true
+  },
+  "claim": "A user-verified passkey ceremony signed a commitment to these recorded grant parameters.",
+  "evidence": {
+    "v": 2,
+    "ceremony": "authentication",
+    "assurance": {
+      "policy": "consumer",
+      "authenticator": "user_verified_unattested",
+      "attestation_format": null,
+      "aaguid": null
+    },
+    "credential_id": "nG6P1pY3ADS7yDgoxTKMow",
+    "public_key": "pQECAyYgASFYICbe2VwTybZk70vLUzrPRi05rZ8F1l5UqgwgMdslOxAMIlggz8nq6AKq6i2Dp7z5ypjfgNEBaSawl7Ze138-6AqzIwc",
+    "challenge": "eXWR-eniS8_hhuCYO85VaRa5tLV4EwJWi4BZflP7KwI",
+    "commitment_preimage": "{\"v\":4,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"session_id\":\"csess_fixture0002\",\"issued_at\":\"2026-10-30T19:00:00.000Z\"}",
+    "response": {
+      "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZVhXUi1lbmlTOF9oaHVDWU84NVZhUmE1dExWNEV3SldpNEJaZmxQN0t3SSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+      "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACQ",
+      "signature": "MEUCIQCe1sKLuKsvE_K1QL2mSjD0-ZsNVLjCfDz1i1CI1Gca8wIgdWCw71DUNajZkg29EI9ExPug8XdlHQ5yZB024LHdTzg"
+    },
+    "uv": true,
+    "verified_at": "2026-09-19T17:00:00.000Z"
+  }
+}

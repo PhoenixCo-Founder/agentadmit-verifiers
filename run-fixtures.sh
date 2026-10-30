@@ -51,6 +51,8 @@ expect 1 "anchor: tampered payload rejected"           python3 verify_audit_chai
 expect 0 "consent chain: valid"                        python3 verify_consent_chain.py fixtures/consent-export-valid.json
 expect 1 "consent chain: deleted row detected"         python3 verify_consent_chain.py fixtures/consent-export-deleted-row.json
 expect 0 "evidence: grant (evidence endpoint shape)"   node verify-consent-evidence.mjs fixtures/evidence-consent-grant.json --expect '{"scopes":["read:profile","read:workouts"],"duration":"30d"}'
+expect 0 "evidence: v4 grant, catalog digest recomputed"  node verify-consent-evidence.mjs fixtures/evidence-consent-grant-v4.json --expect '{"scopes":["read:profile","read:workouts"]}'
+expect 1 "evidence: description edited after ceremony"    node verify-consent-evidence.mjs fixtures/evidence-catalog-description-edited.json
 expect 0 "evidence: action confirmation (bare object)" node verify-consent-evidence.mjs fixtures/evidence-action-confirmation.json --expect '{"scope":"manage:subscription","method":"POST"}'
 expect 0 "evidence: every ceremony in a consent export" node verify-consent-evidence.mjs fixtures/consent-export-valid.json
 expect 1 "evidence: preimage altered after signing"    node verify-consent-evidence.mjs fixtures/evidence-tampered.json
