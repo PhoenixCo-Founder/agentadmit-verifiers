@@ -40,7 +40,7 @@ Checks:
 
 Body: `{ format_version, app_id, events[], count, next_cursor, verifier }`.
 
-Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `presence_verified`, `presence_verified_action`, `policy_updated`, and the relationship and self-consent switch events, plus the evaluation events `evaluated_allow` and `evaluated_deny`.
+Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `presence_verified`, `presence_verified_action`, `policy_updated`, `scope_catalog_changed` (section 5), and the relationship and self-consent switch events, plus the evaluation events `evaluated_allow` and `evaluated_deny`.
 
 | Field | Meaning |
 | --- | --- |
@@ -113,5 +113,7 @@ Where it appears:
 Snapshot shape: `{ v: 1, scopes: [ { name, registered, description, category, confirm_each_time, endpoint_map_sha256 } ] }`. `registered: false` marks a granted name the catalog did not carry at the time; its other fields are then null. `endpoint_map_sha256` is `hex(SHA-256(JSON of the stored endpoint map))` or null.
 
 Canonical form, which the digest is computed over: compact JSON, UTF-8, `{"v":1,"scopes":[...]}` with the entries sorted by `name` and each entry's keys in exactly the order `name, registered, description, category, confirm_each_time, endpoint_map_sha256`, every absent value written as `null`. `catalog_digest = hex(SHA-256(utf8(canonical)))`. The verifier rebuilds this string from the exported entries; it never hashes the entries as re-serialized by a JSON library.
+
+Catalog changes after a grant are their own chained event, `scope_catalog_changed` (actor `user` from the dashboard or `app` through an API key; `app_user_id` null). Its `metadata` carries `changes[]` (`name`, `change`: `edited` or `deleted`, `fields_changed[]`, `before_digest`, `after_digest`, each a single-entry digest in the canonical form above), `affected_active_connections` (count at the time of the change) and `affected_connection_ids` (up to 100). The evidence endpoint reports `scope_catalog.drifted_since_grant`, `changed_scopes[]` and `current_digest` by comparing the frozen snapshot with the catalog as it reads at request time; `drifted_since_grant` is null when the catalog could not be read. A change event never alters a grant: it records that the meaning moved while grants were live.
 
 Check: when a v4 commitment and the entries are both present, the recomputed digest equals `catalog_digest`. A description edited after the ceremony fails this check (`fixtures/evidence-catalog-description-edited.json`). The ceiling is unchanged: the digest covers the catalog entries the server rendered at grant time, not what the user's screen displayed. Review-time record only.
