@@ -48,7 +48,7 @@ Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `
 | `caller_class`, `scope_group` | Which caller class and scope group the decision concerned. |
 | `event`, `actor` | What happened and who acted (`user`, `app`, `system`). |
 | `terms_version` | Terms shown at the time. |
-| `metadata` | Event payload: scopes, agent label, purpose, intent, connection id, and for `presence_verified*` events an `evidence` object (section 3). |
+| `metadata` | Event payload: scopes, agent label, purpose, intent, connection id, and for `presence_verified*` events an `evidence` object (section 3). `connection_granted` events recorded since October 30, 2026 also carry `scope_catalog` and `scope_catalog_digest` (section 5). |
 | `created_at` | Database server time. |
 | `prev_hash`, `row_hash`, `chain_input` | As in section 1. NULL on evaluation events and pre-chain legacy rows. |
 
@@ -61,7 +61,7 @@ Checks:
 
 ## 3. Verifiable consent evidence
 
-Produced by every hosted passkey ceremony. Found in `presence_verified*` events (`metadata.evidence`) and returned by `GET /api/v1/connections/{id}/evidence?include_raw=true` (`evidence`, with `commitment.preimage` and `commitment.sha256` alongside).
+Produced by every hosted passkey ceremony. Found in `presence_verified*` events (`metadata.evidence`) and returned by `GET /api/v1/connections/{id}/evidence?include_raw=true` (`evidence`, with `commitment.preimage` and `commitment.sha256` alongside, and `scope_catalog` when the grant recorded one; section 5).
 
 | Field | Meaning |
 | --- | --- |
@@ -84,6 +84,7 @@ Checks (standard WebAuthn assertion verification, with the challenge pinned to t
 5. If `registration` is present: its `clientDataJSON` has `type == "webauthn.create"` with the same challenge and origin, and the attested credential id and rpIdHash match.
 6. The `assurance` record is internally consistent, and the tier is reported, never upgraded.
 7. Optionally bind the parsed preimage to values you already hold (`--expect`).
+8. If the preimage carries `catalog_digest` and the record supplies the scope-catalog entries, `catalog_digest == hex(SHA-256(canonical snapshot))` (section 5). Without the entries the verifier reports the check as informational, not passed.
 
 ## 4. Commitment preimages
 
@@ -91,10 +92,26 @@ Each preimage is a JSON object serialized by the service in a fixed key order (n
 
 | Kind | Keys, in order |
 | --- | --- |
-| grant (no `kind`) | `v`(3), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`. |
+| grant (no `kind`) | `v`(4), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `catalog_digest`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`; v1 to v3 lack `catalog_digest`. |
 | `action_confirmation` | `v`(1), `kind`, `app_id`, `connection_id`, `app_user_id`, `scope`, `method`, `endpoint`, `request_digest`, `summary`, `session_id`, `issued_at`. |
 | `relationship_consent` | `v`, `kind`, `app_id`, `subject_user_id`, `grantee_user_id`, `relationship_type`, `grantee_label`, `relationship_label`, `changes[]`, `session_id`, `issued_at`. |
 | `self_consent` | `v`, `kind`, `app_id`, `app_user_id`, `environment`, `app_label`, `changes[]`, `session_id`, `issued_at`. |
 | `protective_boundaries` | `v`, `kind`, `app_id`, `connection_id`, `app_user_id`, `actor_kind`, `changes[]`, `session_id`, `issued_at`. |
 
-A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, and the user's chosen call ceilings. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
+A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, the user's chosen call ceilings, and (v4) the digest of the scope-catalog snapshot. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
+
+## 5. Scope-catalog snapshot
+
+A grant binds scope names. What a name meant at the grant moment (the description shown on the consent page, its category, whether it was confirm-each-time, and its endpoint map) lives in the application's mutable scope catalog. Since October 30, 2026 the hosted service freezes the catalog entries of the granted scopes at grant time and records them with the grant.
+
+Where it appears:
+
+- `connection_granted` events: `metadata.scope_catalog` (the snapshot) and `metadata.scope_catalog_digest`.
+- `GET /api/v1/connections/{id}/evidence`: `scope_catalog` with `digest`, `scope_count`, `unregistered_at_grant` (names the catalog did not carry at grant time), `bound_in_commitment` (true when a hosted ceremony's v4 commitment carries this snapshot's digest), and with `include_raw=true` the `scopes` entries.
+- v4 grant commitments: `catalog_digest`.
+
+Snapshot shape: `{ v: 1, scopes: [ { name, registered, description, category, confirm_each_time, endpoint_map_sha256 } ] }`. `registered: false` marks a granted name the catalog did not carry at the time; its other fields are then null. `endpoint_map_sha256` is `hex(SHA-256(JSON of the stored endpoint map))` or null.
+
+Canonical form, which the digest is computed over: compact JSON, UTF-8, `{"v":1,"scopes":[...]}` with the entries sorted by `name` and each entry's keys in exactly the order `name, registered, description, category, confirm_each_time, endpoint_map_sha256`, every absent value written as `null`. `catalog_digest = hex(SHA-256(utf8(canonical)))`. The verifier rebuilds this string from the exported entries; it never hashes the entries as re-serialized by a JSON library.
+
+Check: when a v4 commitment and the entries are both present, the recomputed digest equals `catalog_digest`. A description edited after the ceremony fails this check (`fixtures/evidence-catalog-description-edited.json`). The ceiling is unchanged: the digest covers the catalog entries the server rendered at grant time, not what the user's screen displayed. Review-time record only.

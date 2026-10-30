@@ -7,14 +7,14 @@
     "attestation_format": null,
     "aaguid": null
   },
-  "credential_id": "_17KTDYkJ9JadYV92fDUvg",
-  "public_key": "pQECAyYgASFYIHO32Ekr7fPOYIh8W4zLypC3gDg8lf0RIgdJmTuz0_kVIlggv9hs_kNDwiypcAataonHiVeAhklDl9nHifP3IFy-ifE",
+  "credential_id": "nG6P1pY3ADS7yDgoxTKMow",
+  "public_key": "pQECAyYgASFYICbe2VwTybZk70vLUzrPRi05rZ8F1l5UqgwgMdslOxAMIlggz8nq6AKq6i2Dp7z5ypjfgNEBaSawl7Ze138-6AqzIwc",
   "challenge": "38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk",
   "commitment_preimage": "{\"v\":1,\"kind\":\"action_confirmation\",\"app_id\":\"app_fixture\",\"connection_id\":\"conn_fixture0001\",\"app_user_id\":\"user_fixture\",\"scope\":\"manage:subscription\",\"method\":\"POST\",\"endpoint\":\"/api/recurring-payments/subscribe-to-trainer\",\"request_digest\":\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\",\"summary\":\"Subscribe to Alex, $50/month\",\"session_id\":\"asess_fixture0001\",\"issued_at\":\"2026-09-19T17:05:00.000Z\"}",
   "response": {
     "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
     "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA",
-    "signature": "MEYCIQCAQcFJba2KXTxd-BAVr8JaDzfWNlByCHG42XRnYfnqRwIhAKYcZqm_34-iBXug2vprVDSy7H0Yr6nHWSRTGaMetx-S"
+    "signature": "MEQCICSLcgseroNWHQEnF7vb14Y3mbYTQ5hgbcrUmrG3LOPMAiBIXrlrwsnoRfNF2LJJERYBtT__1FGj74ScJwKleJKaEA"
   },
   "uv": true,
   "verified_at": "2026-09-19T17:00:00.000Z"
