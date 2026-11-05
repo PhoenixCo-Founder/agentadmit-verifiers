@@ -93,13 +93,13 @@ Each preimage is a JSON object serialized by the service in a fixed key order (n
 
 | Kind | Keys, in order |
 | --- | --- |
-| grant (no `kind`) | `v`(5), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `catalog_digest`, `designated_agent`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`; v1 to v3 lack `catalog_digest`; v1 to v4 lack `designated_agent`. |
+| grant (no `kind`) | `v`(6), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `catalog_digest`, `designated_agent`, `designated_model`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`; v1 to v3 lack `catalog_digest`; v1 to v4 lack `designated_agent`; v1 to v5 lack `designated_model`. |
 | `action_confirmation` | `v`(1), `kind`, `app_id`, `connection_id`, `app_user_id`, `scope`, `method`, `endpoint`, `request_digest`, `summary`, `session_id`, `issued_at`. |
 | `relationship_consent` | `v`, `kind`, `app_id`, `subject_user_id`, `grantee_user_id`, `relationship_type`, `grantee_label`, `relationship_label`, `changes[]`, `session_id`, `issued_at`. |
 | `self_consent` | `v`, `kind`, `app_id`, `app_user_id`, `environment`, `app_label`, `changes[]`, `session_id`, `issued_at`. |
 | `protective_boundaries` | `v`, `kind`, `app_id`, `connection_id`, `app_user_id`, `actor_kind`, `changes[]`, `session_id`, `issued_at`. |
 
-A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, the user's chosen call ceilings, (v4) the digest of the scope-catalog snapshot, and (v5) the agent the user named for the grant. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
+A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, the user's chosen call ceilings, (v4) the digest of the scope-catalog snapshot, (v5) the agent app the user named for the grant, and (v6) the AI model family the user said that agent mainly uses, when they named one. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
 
 ## 5. Scope-catalog snapshot
 
@@ -133,3 +133,11 @@ Where it appears:
 - v5 grant commitments: `designated_agent`, serialized as `{"agent_id":<json>,"name":<json>}` in that key order, between `catalog_digest` and `session_id`.
 
 What a pass means: the user's authenticator signed a commitment that names this agent. It does not prove which software received or used the credential, and it is not a verified identity of the agent. A grant made without a passkey ceremony records the designation without a signature. Records from before November 5, 2026 carry none.
+
+### Agent app and model family (since v6)
+
+An agent app (for example OpenClaw) is not the model it runs. Since the same day the consent page asks two questions: which agent app the grant is for (required) and which AI model family that app mainly uses (optional). `designated_agent` carries the app; the model is `designated_agent.model` in records (`{ "model_id": <catalog id or null>, "name": <string> }`, or null) and `designated_model` in v6 commitments, serialized as `{"model_id":<json>,"name":<json>}` between `designated_agent` and `session_id`, or `null` when the user named none.
+
+Records also carry what the agent reported about itself at exchange, unverified: `agent_reported` (`platform`, `model { id, version }`) and `agent_model_match` (`match`, `differs`, or null).
+
+A pass on the model check means the user's authenticator signed a commitment naming that model family at grant time. The agent may use other models afterwards; nothing here observes that.

@@ -176,6 +176,19 @@ function verifyEvidence(ev, ctx = {}) {
   } else if (pre && ctx.designatedAgent && typeof ctx.designatedAgent === 'object' && kind === 'consent_grant') {
     check('record carries a designated_agent the commitment does not bind (pre-v5 ceremony)', true, 'informational: declared on the consent page, not signed');
   }
+  // v6 grant commitments also bind designated_model: the AI model family the
+  // user said the agent mainly uses ({model_id, name}), or null when they
+  // named none. Declared at grant time; the agent may use other models later.
+  if (pre && 'designated_model' in pre) {
+    const signedModel = pre.designated_model;
+    const recModel = ctx.designatedAgent && typeof ctx.designatedAgent === 'object' ? (ctx.designatedAgent.model ?? null) : undefined;
+    if (recModel !== undefined) {
+      const same = signedModel === null ? recModel === null : (recModel !== null && recModel.name === signedModel.name && (recModel.model_id ?? null) === (signedModel.model_id ?? null));
+      check('designated model in the record == the one the authenticator signed', same, signedModel ? `signed: ${JSON.stringify(signedModel.name)} (declared by the user)` : 'signed: no model named');
+    } else if (signedModel) {
+      check('designated_model signed; record supplied none to compare', true, `signed: ${JSON.stringify(signedModel.name)} (informational)`);
+    }
+  }
   const challenge = b64uEnc(sha256(Buffer.from(preimage ?? '', 'utf8')));
   check('challenge == base64url(SHA-256(preimage))', challenge === ev.challenge);
   let clientData = null;

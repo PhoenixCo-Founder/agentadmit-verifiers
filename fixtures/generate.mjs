@@ -19,6 +19,8 @@
  *   evidence-action-confirmation.json verify-consent-evidence.mjs PASS (bare evidence object)
  *   evidence-consent-grant-v5.json    verify-consent-evidence.mjs PASS (designated agent bound in the commitment)
  *   evidence-designated-agent-changed.json verify-consent-evidence.mjs FAIL (record names a different agent than was signed)
+ *   evidence-consent-grant-v6.json    verify-consent-evidence.mjs PASS (designated model bound in the commitment)
+ *   evidence-designated-model-changed.json verify-consent-evidence.mjs FAIL (record names a different model than was signed)
  *   evidence-tampered.json            verify-consent-evidence.mjs FAIL (preimage altered after signing)
  *   trust-valid.json                  --trust flag                PASS (matching COSE key)
  *   trust-wrong-key.json              --trust flag                FAIL (different P-256 key)
@@ -162,6 +164,12 @@ const grantPreimageV5 = '{' + [
   '"issued_at":"2026-11-05T21:00:00.000Z"',
 ].join(',') + '}';
 const grantEvidenceV5 = assertion(grantPreimageV5, 10);
+// ---------- v6 grant: designated_model, the model family the user said the agent mainly uses (067) ----------
+const designatedModel = { model_id: 'agt_fixturemodel1', name: 'Claude (Anthropic)' };
+const grantPreimageV6 = grantPreimageV5
+  .replace('"v":5', '"v":6')
+  .replace(',"session_id":"csess_fixture0003"', `,"designated_model":{"model_id":${JSON.stringify(designatedModel.model_id)},"name":${JSON.stringify(designatedModel.name)}},"session_id":"csess_fixture0004"`);
+const grantEvidenceV6 = assertion(grantPreimageV6, 11);
 const actionEvidence = assertion(actionPreimage, 8);
 
 // ---------- audit export (per-call chain, migration 057 shape) ----------
@@ -279,6 +287,18 @@ write('evidence-action-confirmation.json', actionEvidence);
   const changed = JSON.parse(JSON.stringify(body));
   changed.designated_agent.name = 'Some Other Agent';
   write('evidence-designated-agent-changed.json', changed);
+  // v6: the same grant with a model family named and signed.
+  const v6 = JSON.parse(JSON.stringify(body));
+  v6.connection_id = 'conn_fixture0004';
+  v6.commitment = { sha256: sha256hex(grantPreimageV6), preimage_version: 6, preimage: grantPreimageV6 };
+  v6.designated_agent.model = designatedModel;
+  v6.designated_agent.agent_reported = { platform: 'Coach Assistant 2.1', model: { id: 'claude-opus-5-5', version: null } };
+  v6.designated_agent.agent_model_match = 'match';
+  v6.evidence = grantEvidenceV6;
+  write('evidence-consent-grant-v6.json', v6);
+  const swapped = JSON.parse(JSON.stringify(v6));
+  swapped.designated_agent.model = { model_id: null, name: 'Some Other Model' };
+  write('evidence-designated-model-changed.json', swapped);
 }
 {
   const tampered = JSON.parse(JSON.stringify(actionEvidence));

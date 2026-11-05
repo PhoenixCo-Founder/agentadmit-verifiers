@@ -55,6 +55,8 @@ expect 0 "evidence: v4 grant, catalog digest recomputed"  node verify-consent-ev
 expect 1 "evidence: description edited after ceremony"    node verify-consent-evidence.mjs fixtures/evidence-catalog-description-edited.json
 expect 0 "evidence: v5 grant, designated agent bound"     node verify-consent-evidence.mjs fixtures/evidence-consent-grant-v5.json --expect '{"designated_agent":{"agent_id":"agt_fixture00001","name":"Coach Assistant"}}'
 expect 1 "evidence: record names a different agent"       node verify-consent-evidence.mjs fixtures/evidence-designated-agent-changed.json
+expect 0 "evidence: v6 grant, designated model bound"     node verify-consent-evidence.mjs fixtures/evidence-consent-grant-v6.json --expect '{"designated_model":{"model_id":"agt_fixturemodel1","name":"Claude (Anthropic)"}}'
+expect 1 "evidence: record names a different model"       node verify-consent-evidence.mjs fixtures/evidence-designated-model-changed.json
 expect 0 "evidence: action confirmation (bare object)" node verify-consent-evidence.mjs fixtures/evidence-action-confirmation.json --expect '{"scope":"manage:subscription","method":"POST"}'
 expect 0 "evidence: every ceremony in a consent export" node verify-consent-evidence.mjs fixtures/consent-export-valid.json
 expect 1 "evidence: preimage altered after signing"    node verify-consent-evidence.mjs fixtures/evidence-tampered.json
