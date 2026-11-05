@@ -25,14 +25,14 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "ZVIrRMY-6F2AKtJRFFAJrw",
-          "public_key": "pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98",
+          "credential_id": "4rYKBX9MeqfW16suSmL3gQ",
+          "public_key": "pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o",
           "challenge": "6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU",
           "commitment_preimage": "{\"v\":3,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"session_id\":\"csess_fixture0001\",\"issued_at\":\"2026-09-19T16:59:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw",
-            "signature": "MEYCIQCBj6QjYvqiwt4xSA1AEEr02dQg-7BXWIczFRNzJD6luQIhAO1JdRFUl5mcdyusAdAQytPbZ2og2ckwVGyL6Vg4xN1w"
+            "signature": "MEUCIGaGpJou-azgWLYTbh3XVsG6TkkJZYeK-PSgg66xA1bJAiEA9X0vXgTDew0XO82dNkPFg5JFA5iHvIZcVBVUKBLYYd4"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
@@ -40,8 +40,8 @@
       },
       "created_at": "2026-09-19T17:01:00.000000Z",
       "prev_hash": null,
-      "row_hash": "8e30f194e48097266e73cab56295aecf663d495a2df2641ff72e3b48849ef43a",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000001\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"ZVIrRMY-6F2AKtJRFFAJrw\",\"public_key\":\"pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98\",\"challenge\":\"6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU\",\"commitment_preimage\":\"{\\\"v\\\":3,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"session_id\\\":\\\"csess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T16:59:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw\",\"signature\":\"MEYCIQCBj6QjYvqiwt4xSA1AEEr02dQg-7BXWIczFRNzJD6luQIhAO1JdRFUl5mcdyusAdAQytPbZ2og2ckwVGyL6Vg4xN1w\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:01:00.000000Z\n"
+      "row_hash": "d5740a0796a19d46903daa0624e058af6a65117f30a45875620751c3349c0250",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000001\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"4rYKBX9MeqfW16suSmL3gQ\",\"public_key\":\"pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o\",\"challenge\":\"6wRC552_czO65htuRh2_XxytYLc5eiPWr2-rbjlFvIU\",\"commitment_preimage\":\"{\\\"v\\\":3,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"session_id\\\":\\\"csess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T16:59:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNndSQzU1Ml9jek82NWh0dVJoMl9YeHl0WUxjNWVpUFdyMi1yYmpsRnZJVSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAABw\",\"signature\":\"MEUCIGaGpJou-azgWLYTbh3XVsG6TkkJZYeK-PSgg66xA1bJAiEA9X0vXgTDew0XO82dNkPFg5JFA5iHvIZcVBVUKBLYYd4\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:01:00.000000Z\n"
     },
     {
       "id": "10000000-0000-4000-8000-000000000002",
@@ -64,9 +64,9 @@
         "user_intent": "Summarize my workouts every Sunday"
       },
       "created_at": "2026-09-19T17:02:00.000000Z",
-      "prev_hash": "8e30f194e48097266e73cab56295aecf663d495a2df2641ff72e3b48849ef43a",
-      "row_hash": "77f6d72c770cd91f63b623f797bf7400620bdf112ed601f61b64b94f38561a56",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000002\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\"}\n2026-09-19T17:02:00.000000Z\n8e30f194e48097266e73cab56295aecf663d495a2df2641ff72e3b48849ef43a"
+      "prev_hash": "d5740a0796a19d46903daa0624e058af6a65117f30a45875620751c3349c0250",
+      "row_hash": "1a5b6a0cb6b59b557f0e3a3170e7f1a2ae38cbdd6a3944d4b715abde3ba1a750",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000002\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\"}\n2026-09-19T17:02:00.000000Z\nd5740a0796a19d46903daa0624e058af6a65117f30a45875620751c3349c0250"
     },
     {
       "id": "10000000-0000-4000-8000-000000000003",
@@ -91,23 +91,23 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "ZVIrRMY-6F2AKtJRFFAJrw",
-          "public_key": "pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98",
+          "credential_id": "4rYKBX9MeqfW16suSmL3gQ",
+          "public_key": "pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o",
           "challenge": "eXWR-eniS8_hhuCYO85VaRa5tLV4EwJWi4BZflP7KwI",
           "commitment_preimage": "{\"v\":4,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"session_id\":\"csess_fixture0002\",\"issued_at\":\"2026-10-30T19:00:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZVhXUi1lbmlTOF9oaHVDWU84NVZhUmE1dExWNEV3SldpNEJaZmxQN0t3SSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACQ",
-            "signature": "MEUCIQD2bfPBSD2jVTq1_YS4jmHII1hbI6EwytkdVAMvYxZKYAIgUivzB7ckS7fjX1QqxwAvOeQi_Vuz2CpkBDMrs8_xnUA"
+            "signature": "MEUCIDxLVEDZ1bcQdPlYTQlLVmGjSrmNkkse0vejBzilo-iNAiEApht2m8o6cuUP15QmKXN0iqNUrH7MLAG0p5QHbpy6CUw"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
         }
       },
       "created_at": "2026-09-19T17:03:00.000000Z",
-      "prev_hash": "77f6d72c770cd91f63b623f797bf7400620bdf112ed601f61b64b94f38561a56",
-      "row_hash": "f6d61c6a727592ba229af2d2d8c6aab2b64db75f788bb696ad82e50fb0cccdfb",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000003\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0002\",\"connection_id\":\"conn_fixture0002\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"ZVIrRMY-6F2AKtJRFFAJrw\",\"public_key\":\"pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98\",\"challenge\":\"eXWR-eniS8_hhuCYO85VaRa5tLV4EwJWi4BZflP7KwI\",\"commitment_preimage\":\"{\\\"v\\\":4,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"catalog_digest\\\":\\\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\\\",\\\"session_id\\\":\\\"csess_fixture0002\\\",\\\"issued_at\\\":\\\"2026-10-30T19:00:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZVhXUi1lbmlTOF9oaHVDWU84NVZhUmE1dExWNEV3SldpNEJaZmxQN0t3SSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACQ\",\"signature\":\"MEUCIQD2bfPBSD2jVTq1_YS4jmHII1hbI6EwytkdVAMvYxZKYAIgUivzB7ckS7fjX1QqxwAvOeQi_Vuz2CpkBDMrs8_xnUA\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:03:00.000000Z\n77f6d72c770cd91f63b623f797bf7400620bdf112ed601f61b64b94f38561a56"
+      "prev_hash": "1a5b6a0cb6b59b557f0e3a3170e7f1a2ae38cbdd6a3944d4b715abde3ba1a750",
+      "row_hash": "be9710df6b03d9dccc4b634be4e37bd7386da0f6e54a1e6766c58b4e96e8b137",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000003\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0002\",\"connection_id\":\"conn_fixture0002\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"4rYKBX9MeqfW16suSmL3gQ\",\"public_key\":\"pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o\",\"challenge\":\"eXWR-eniS8_hhuCYO85VaRa5tLV4EwJWi4BZflP7KwI\",\"commitment_preimage\":\"{\\\"v\\\":4,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"catalog_digest\\\":\\\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\\\",\\\"session_id\\\":\\\"csess_fixture0002\\\",\\\"issued_at\\\":\\\"2026-10-30T19:00:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZVhXUi1lbmlTOF9oaHVDWU84NVZhUmE1dExWNEV3SldpNEJaZmxQN0t3SSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACQ\",\"signature\":\"MEUCIDxLVEDZ1bcQdPlYTQlLVmGjSrmNkkse0vejBzilo-iNAiEApht2m8o6cuUP15QmKXN0iqNUrH7MLAG0p5QHbpy6CUw\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:03:00.000000Z\n1a5b6a0cb6b59b557f0e3a3170e7f1a2ae38cbdd6a3944d4b715abde3ba1a750"
     },
     {
       "id": "10000000-0000-4000-8000-000000000004",
@@ -152,9 +152,9 @@
         "scope_catalog_digest": "6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93"
       },
       "created_at": "2026-09-19T17:04:00.000000Z",
-      "prev_hash": "f6d61c6a727592ba229af2d2d8c6aab2b64db75f788bb696ad82e50fb0cccdfb",
-      "row_hash": "a1db964c37eb243a6d09c7a9739f444325f5b9ef4c600764d8a1b5e68d8d0175",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000004\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0002\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"scope_catalog\":{\"v\":1,\"scopes\":[{\"name\":\"read:profile\",\"registered\":true,\"description\":\"Read your name, goals and training preferences\",\"category\":\"Profile\",\"confirm_each_time\":false,\"endpoint_map_sha256\":\"96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0\"},{\"name\":\"read:workouts\",\"registered\":true,\"description\":\"Read your logged workouts\",\"category\":\"Fitness\",\"confirm_each_time\":false,\"endpoint_map_sha256\":null}]},\"scope_catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\"}\n2026-09-19T17:04:00.000000Z\nf6d61c6a727592ba229af2d2d8c6aab2b64db75f788bb696ad82e50fb0cccdfb"
+      "prev_hash": "be9710df6b03d9dccc4b634be4e37bd7386da0f6e54a1e6766c58b4e96e8b137",
+      "row_hash": "8588e4b0174e4b55598de68d1f260786f7ffd80a1091dec5f817b4104f75c136",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000004\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0002\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"scope_catalog\":{\"v\":1,\"scopes\":[{\"name\":\"read:profile\",\"registered\":true,\"description\":\"Read your name, goals and training preferences\",\"category\":\"Profile\",\"confirm_each_time\":false,\"endpoint_map_sha256\":\"96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0\"},{\"name\":\"read:workouts\",\"registered\":true,\"description\":\"Read your logged workouts\",\"category\":\"Fitness\",\"confirm_each_time\":false,\"endpoint_map_sha256\":null}]},\"scope_catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\"}\n2026-09-19T17:04:00.000000Z\nbe9710df6b03d9dccc4b634be4e37bd7386da0f6e54a1e6766c58b4e96e8b137"
     },
     {
       "id": "10000000-0000-4000-8000-000000000005",
@@ -179,23 +179,23 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "ZVIrRMY-6F2AKtJRFFAJrw",
-          "public_key": "pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98",
+          "credential_id": "4rYKBX9MeqfW16suSmL3gQ",
+          "public_key": "pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o",
           "challenge": "sa-gFRzK9eqmRikEOd6pPeOzeboXdBCjUFkrXR3t51g",
           "commitment_preimage": "{\"v\":5,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"designated_agent\":{\"agent_id\":\"agt_fixture00001\",\"name\":\"Coach Assistant\"},\"session_id\":\"csess_fixture0003\",\"issued_at\":\"2026-11-05T21:00:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoic2EtZ0ZSeks5ZXFtUmlrRU9kNnBQZU96ZWJvWGRCQ2pVRmtyWFIzdDUxZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACg",
-            "signature": "MEUCIQDlFVGGWwxqQqyjgBFcVGeHxJeFiCiIdIc5udiCKke4BAIgUOR8PWU0gR51nKnyG-BoinOG4MKTBaojY-sbINUjmw0"
+            "signature": "MEQCIBKoUn4XgKITBwtARl5x_kdpIafddCgWtJ2JmANCxUN1AiByxwInppqb4-oV40yc3zuqYw6SmSP9chl_pWpF19mLmA"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
         }
       },
       "created_at": "2026-09-19T17:05:00.000000Z",
-      "prev_hash": "a1db964c37eb243a6d09c7a9739f444325f5b9ef4c600764d8a1b5e68d8d0175",
-      "row_hash": "10e67432e642e407e691447afdaa2c87fa0acb7ebb3ab9776fc4d11892ec72b8",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000005\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0003\",\"connection_id\":\"conn_fixture0003\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"ZVIrRMY-6F2AKtJRFFAJrw\",\"public_key\":\"pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98\",\"challenge\":\"sa-gFRzK9eqmRikEOd6pPeOzeboXdBCjUFkrXR3t51g\",\"commitment_preimage\":\"{\\\"v\\\":5,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"catalog_digest\\\":\\\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\\\",\\\"designated_agent\\\":{\\\"agent_id\\\":\\\"agt_fixture00001\\\",\\\"name\\\":\\\"Coach Assistant\\\"},\\\"session_id\\\":\\\"csess_fixture0003\\\",\\\"issued_at\\\":\\\"2026-11-05T21:00:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoic2EtZ0ZSeks5ZXFtUmlrRU9kNnBQZU96ZWJvWGRCQ2pVRmtyWFIzdDUxZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACg\",\"signature\":\"MEUCIQDlFVGGWwxqQqyjgBFcVGeHxJeFiCiIdIc5udiCKke4BAIgUOR8PWU0gR51nKnyG-BoinOG4MKTBaojY-sbINUjmw0\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:05:00.000000Z\na1db964c37eb243a6d09c7a9739f444325f5b9ef4c600764d8a1b5e68d8d0175"
+      "prev_hash": "8588e4b0174e4b55598de68d1f260786f7ffd80a1091dec5f817b4104f75c136",
+      "row_hash": "1e3725ccf9b81ecd3ab098c28031c82b8d3840b5d6843bae36042fc1b41d057a",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000005\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified\nuser\nlive\nv1\n{\"session_id\":\"csess_fixture0003\",\"connection_id\":\"conn_fixture0003\",\"method\":\"webauthn\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"4rYKBX9MeqfW16suSmL3gQ\",\"public_key\":\"pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o\",\"challenge\":\"sa-gFRzK9eqmRikEOd6pPeOzeboXdBCjUFkrXR3t51g\",\"commitment_preimage\":\"{\\\"v\\\":5,\\\"app_id\\\":\\\"app_fixture\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scopes\\\":[\\\"read:profile\\\",\\\"read:workouts\\\"],\\\"duration\\\":\\\"30d\\\",\\\"purpose\\\":\\\"Weekly training summary\\\",\\\"user_intent\\\":\\\"Summarize my workouts every Sunday\\\",\\\"bounds\\\":null,\\\"catalog_digest\\\":\\\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\\\",\\\"designated_agent\\\":{\\\"agent_id\\\":\\\"agt_fixture00001\\\",\\\"name\\\":\\\"Coach Assistant\\\"},\\\"session_id\\\":\\\"csess_fixture0003\\\",\\\"issued_at\\\":\\\"2026-11-05T21:00:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoic2EtZ0ZSeks5ZXFtUmlrRU9kNnBQZU96ZWJvWGRCQ2pVRmtyWFIzdDUxZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACg\",\"signature\":\"MEQCIBKoUn4XgKITBwtARl5x_kdpIafddCgWtJ2JmANCxUN1AiByxwInppqb4-oV40yc3zuqYw6SmSP9chl_pWpF19mLmA\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:05:00.000000Z\n8588e4b0174e4b55598de68d1f260786f7ffd80a1091dec5f817b4104f75c136"
     },
     {
       "id": "10000000-0000-4000-8000-000000000006",
@@ -247,9 +247,9 @@
         "scope_catalog_digest": "6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93"
       },
       "created_at": "2026-09-19T17:06:00.000000Z",
-      "prev_hash": "10e67432e642e407e691447afdaa2c87fa0acb7ebb3ab9776fc4d11892ec72b8",
-      "row_hash": "6f90856ae76196914818af252ade42963a232af752ef0ac1677c63cc58dd26a0",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000006\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0003\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach Assistant 2.1\",\"designated_agent\":{\"v\":1,\"source\":\"user_declared\",\"agent_id\":\"agt_fixture00001\",\"name\":\"Coach Assistant\"},\"agent_label_match\":\"match\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"scope_catalog\":{\"v\":1,\"scopes\":[{\"name\":\"read:profile\",\"registered\":true,\"description\":\"Read your name, goals and training preferences\",\"category\":\"Profile\",\"confirm_each_time\":false,\"endpoint_map_sha256\":\"96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0\"},{\"name\":\"read:workouts\",\"registered\":true,\"description\":\"Read your logged workouts\",\"category\":\"Fitness\",\"confirm_each_time\":false,\"endpoint_map_sha256\":null}]},\"scope_catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\"}\n2026-09-19T17:06:00.000000Z\n10e67432e642e407e691447afdaa2c87fa0acb7ebb3ab9776fc4d11892ec72b8"
+      "prev_hash": "1e3725ccf9b81ecd3ab098c28031c82b8d3840b5d6843bae36042fc1b41d057a",
+      "row_hash": "c255d5c153456f831f1914b60d95216526310e2b27e1f157a5a25eea4de5eaa1",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000006\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_granted\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0003\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"agent_label\":\"Coach Assistant 2.1\",\"designated_agent\":{\"v\":1,\"source\":\"user_declared\",\"agent_id\":\"agt_fixture00001\",\"name\":\"Coach Assistant\"},\"agent_label_match\":\"match\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"scope_catalog\":{\"v\":1,\"scopes\":[{\"name\":\"read:profile\",\"registered\":true,\"description\":\"Read your name, goals and training preferences\",\"category\":\"Profile\",\"confirm_each_time\":false,\"endpoint_map_sha256\":\"96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0\"},{\"name\":\"read:workouts\",\"registered\":true,\"description\":\"Read your logged workouts\",\"category\":\"Fitness\",\"confirm_each_time\":false,\"endpoint_map_sha256\":null}]},\"scope_catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\"}\n2026-09-19T17:06:00.000000Z\n1e3725ccf9b81ecd3ab098c28031c82b8d3840b5d6843bae36042fc1b41d057a"
     },
     {
       "id": "10000000-0000-4000-8000-000000000007",
@@ -293,23 +293,23 @@
             "attestation_format": null,
             "aaguid": null
           },
-          "credential_id": "ZVIrRMY-6F2AKtJRFFAJrw",
-          "public_key": "pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98",
+          "credential_id": "4rYKBX9MeqfW16suSmL3gQ",
+          "public_key": "pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o",
           "challenge": "38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk",
           "commitment_preimage": "{\"v\":1,\"kind\":\"action_confirmation\",\"app_id\":\"app_fixture\",\"connection_id\":\"conn_fixture0001\",\"app_user_id\":\"user_fixture\",\"scope\":\"manage:subscription\",\"method\":\"POST\",\"endpoint\":\"/api/recurring-payments/subscribe-to-trainer\",\"request_digest\":\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\",\"summary\":\"Subscribe to Alex, $50/month\",\"session_id\":\"asess_fixture0001\",\"issued_at\":\"2026-09-19T17:05:00.000Z\"}",
           "response": {
             "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
             "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA",
-            "signature": "MEYCIQCad8QmloL4fer5tZzuWUJdQSkvgXCYKEmBSSOCqRWaEAIhAJKSzYBhJdYz1QWakY-fZ-_9czapS-ON9o_e2cbAqWjT"
+            "signature": "MEQCICDXZ9c2QzprnP2PkXQmFARpoZEmF_ftHo2voTOpYM5SAiABOmCOwLQk0foWBhA0uxOujTNEsWwq90A5EY9CPl82_A"
           },
           "uv": true,
           "verified_at": "2026-09-19T17:00:00.000Z"
         }
       },
       "created_at": "2026-09-19T17:08:00.000000Z",
-      "prev_hash": "6f90856ae76196914818af252ade42963a232af752ef0ac1677c63cc58dd26a0",
-      "row_hash": "f3c83be1ed5dfce05bb77718a34403ffc20aaf50947ec3d8aee7e86c0615b41b",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000008\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified_action\nuser\nlive\nv1\n{\"session_id\":\"asess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"scope\":\"manage:subscription\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"ZVIrRMY-6F2AKtJRFFAJrw\",\"public_key\":\"pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98\",\"challenge\":\"38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk\",\"commitment_preimage\":\"{\\\"v\\\":1,\\\"kind\\\":\\\"action_confirmation\\\",\\\"app_id\\\":\\\"app_fixture\\\",\\\"connection_id\\\":\\\"conn_fixture0001\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scope\\\":\\\"manage:subscription\\\",\\\"method\\\":\\\"POST\\\",\\\"endpoint\\\":\\\"/api/recurring-payments/subscribe-to-trainer\\\",\\\"request_digest\\\":\\\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\\\",\\\"summary\\\":\\\"Subscribe to Alex, $50/month\\\",\\\"session_id\\\":\\\"asess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T17:05:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA\",\"signature\":\"MEYCIQCad8QmloL4fer5tZzuWUJdQSkvgXCYKEmBSSOCqRWaEAIhAJKSzYBhJdYz1QWakY-fZ-_9czapS-ON9o_e2cbAqWjT\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:08:00.000000Z\n6f90856ae76196914818af252ade42963a232af752ef0ac1677c63cc58dd26a0"
+      "prev_hash": "c255d5c153456f831f1914b60d95216526310e2b27e1f157a5a25eea4de5eaa1",
+      "row_hash": "ab67cf1a6990a989f3e6d409ba87d5ae3c4771945060cfe913fb9c9025940161",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000008\napp_fixture\nuser_fixture\nexternal_agent\n\npresence_verified_action\nuser\nlive\nv1\n{\"session_id\":\"asess_fixture0001\",\"connection_id\":\"conn_fixture0001\",\"scope\":\"manage:subscription\",\"evidence\":{\"v\":2,\"ceremony\":\"authentication\",\"assurance\":{\"policy\":\"consumer\",\"authenticator\":\"user_verified_unattested\",\"attestation_format\":null,\"aaguid\":null},\"credential_id\":\"4rYKBX9MeqfW16suSmL3gQ\",\"public_key\":\"pQECAyYgASFYIM4oqSAcy757OiqefGlciqcoMNIfWq2bfgZ707tnw2itIlggjolhfCDBsK-EpkFWQRDge-x6Etvr0TaKtUkNZxVpp6o\",\"challenge\":\"38VYLVWHIYLVHqvWToXPVctxU2C_pVYu1sllpb4Hnkk\",\"commitment_preimage\":\"{\\\"v\\\":1,\\\"kind\\\":\\\"action_confirmation\\\",\\\"app_id\\\":\\\"app_fixture\\\",\\\"connection_id\\\":\\\"conn_fixture0001\\\",\\\"app_user_id\\\":\\\"user_fixture\\\",\\\"scope\\\":\\\"manage:subscription\\\",\\\"method\\\":\\\"POST\\\",\\\"endpoint\\\":\\\"/api/recurring-payments/subscribe-to-trainer\\\",\\\"request_digest\\\":\\\"95b4a6b419bd218ff2b3fd966526ff0c1299e182200c76e463587590f4ba5c74\\\",\\\"summary\\\":\\\"Subscribe to Alex, $50/month\\\",\\\"session_id\\\":\\\"asess_fixture0001\\\",\\\"issued_at\\\":\\\"2026-09-19T17:05:00.000Z\\\"}\",\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMzhWWUxWV0hJWUxWSHF2V1RvWFBWY3R4VTJDX3BWWXUxc2xscGI0SG5rayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACA\",\"signature\":\"MEQCICDXZ9c2QzprnP2PkXQmFARpoZEmF_ftHo2voTOpYM5SAiABOmCOwLQk0foWBhA0uxOujTNEsWwq90A5EY9CPl82_A\"},\"uv\":true,\"verified_at\":\"2026-09-19T17:00:00.000Z\"}}\n2026-09-19T17:08:00.000000Z\nc255d5c153456f831f1914b60d95216526310e2b27e1f157a5a25eea4de5eaa1"
     },
     {
       "id": "10000000-0000-4000-8000-000000000009",
@@ -345,9 +345,9 @@
         "reason": "user_revoked"
       },
       "created_at": "2026-09-19T17:00:00.000000Z",
-      "prev_hash": "f3c83be1ed5dfce05bb77718a34403ffc20aaf50947ec3d8aee7e86c0615b41b",
-      "row_hash": "254f1993c7b20e1d5f1e27eafb6b2e59b7e1a4e072b6cc4fe0f8471081159c8d",
-      "chain_input": "v1\n10000000-0000-4000-8000-000000000010\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_revoked\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"reason\":\"user_revoked\"}\n2026-09-19T17:00:00.000000Z\nf3c83be1ed5dfce05bb77718a34403ffc20aaf50947ec3d8aee7e86c0615b41b"
+      "prev_hash": "ab67cf1a6990a989f3e6d409ba87d5ae3c4771945060cfe913fb9c9025940161",
+      "row_hash": "8a54297c3379d699ab008cd8e86a44b20127f1ef4549899606d868e124aa8d6d",
+      "chain_input": "v1\n10000000-0000-4000-8000-000000000010\napp_fixture\nuser_fixture\nexternal_agent\n\nconnection_revoked\nuser\nlive\nv1\n{\"connection_id\":\"conn_fixture0001\",\"reason\":\"user_revoked\"}\n2026-09-19T17:00:00.000000Z\nab67cf1a6990a989f3e6d409ba87d5ae3c4771945060cfe913fb9c9025940161"
     }
   ],
   "count": 10,
