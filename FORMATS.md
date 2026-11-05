@@ -85,6 +85,7 @@ Checks (standard WebAuthn assertion verification, with the challenge pinned to t
 6. The `assurance` record is internally consistent, and the tier is reported, never upgraded.
 7. Optionally bind the parsed preimage to values you already hold (`--expect`).
 8. If the preimage carries `catalog_digest` and the record supplies the scope-catalog entries, `catalog_digest == hex(SHA-256(canonical snapshot))` (section 5). Without the entries the verifier reports the check as informational, not passed.
+9. If the preimage carries `designated_agent` and the record supplies one, the record's `agent_id` and `name` equal the signed ones (section 6). Without a record value the verifier reports the signed name as informational.
 
 ## 4. Commitment preimages
 
@@ -92,13 +93,13 @@ Each preimage is a JSON object serialized by the service in a fixed key order (n
 
 | Kind | Keys, in order |
 | --- | --- |
-| grant (no `kind`) | `v`(4), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `catalog_digest`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`; v1 to v3 lack `catalog_digest`. |
+| grant (no `kind`) | `v`(5), `app_id`, `app_user_id`, `scopes` (sorted), `duration`, `purpose`, `user_intent`, `bounds`, `catalog_digest`, `designated_agent`, `session_id`, `issued_at`. v1 lacks `user_intent`; v1 and v2 lack `bounds`; v1 to v3 lack `catalog_digest`; v1 to v4 lack `designated_agent`. |
 | `action_confirmation` | `v`(1), `kind`, `app_id`, `connection_id`, `app_user_id`, `scope`, `method`, `endpoint`, `request_digest`, `summary`, `session_id`, `issued_at`. |
 | `relationship_consent` | `v`, `kind`, `app_id`, `subject_user_id`, `grantee_user_id`, `relationship_type`, `grantee_label`, `relationship_label`, `changes[]`, `session_id`, `issued_at`. |
 | `self_consent` | `v`, `kind`, `app_id`, `app_user_id`, `environment`, `app_label`, `changes[]`, `session_id`, `issued_at`. |
 | `protective_boundaries` | `v`, `kind`, `app_id`, `connection_id`, `app_user_id`, `actor_kind`, `changes[]`, `session_id`, `issued_at`. |
 
-A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, the user's chosen call ceilings, and (v4) the digest of the scope-catalog snapshot. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
+A grant commitment binds the scopes, the duration, the app's declared purpose, the user's own words, the user's chosen call ceilings, (v4) the digest of the scope-catalog snapshot, and (v5) the agent the user named for the grant. An action commitment binds the scope, HTTP method, endpoint, a digest of the request body computed by the app, and the summary the human saw. What the digest covers is the app's declaration; the verifier proves the signature is over that declaration.
 
 ## 5. Scope-catalog snapshot
 
@@ -117,3 +118,18 @@ Canonical form, which the digest is computed over: compact JSON, UTF-8, `{"v":1,
 Catalog changes after a grant are their own chained event, `scope_catalog_changed` (actor `user` from the dashboard or `app` through an API key; `app_user_id` null). Its `metadata` carries `changes[]` (`name`, `change`: `edited` or `deleted`, `fields_changed[]`, `before_digest`, `after_digest`, each a single-entry digest in the canonical form above), `affected_active_connections` (count at the time of the change) and `affected_connection_ids` (up to 100). The evidence endpoint reports `scope_catalog.drifted_since_grant`, `changed_scopes[]` and `current_digest` by comparing the frozen snapshot with the catalog as it reads at request time; `drifted_since_grant` is null when the catalog could not be read. A change event never alters a grant: it records that the meaning moved while grants were live.
 
 Check: when a v4 commitment and the entries are both present, the recomputed digest equals `catalog_digest`. A description edited after the ceremony fails this check (`fixtures/evidence-catalog-description-edited.json`). The ceiling is unchanged: the digest covers the catalog entries the server rendered at grant time, not what the user's screen displayed. Review-time record only.
+
+## 6. Agent designation
+
+A connection has its own identifier (`connection_id`). Which agent the connection is for is stated by the user: since November 5, 2026 the hosted consent page asks "Which agent is this for?" before any token exists. The user picks an entry from the application's agent catalog or types a name.
+
+The designation is `{ "agent_id": <catalog id or null>, "name": <string, 1 to 80 characters> }`. In stored records it also carries `"v": 1` and `"source": "user_declared"`.
+
+Where it appears:
+
+- `connection_granted` events: `metadata.designated_agent`, next to `metadata.agent_label` (what the agent reported about itself at exchange) and `metadata.agent_label_match` (`match`, `differs`, or null).
+- `connection_revoked` events: `metadata.designated_agent`.
+- `GET /api/v1/connections/{id}/evidence`: `designated_agent` with `agent_id`, `name`, `source`, `bound_in_commitment` (true when a hosted ceremony's v5 commitment carries this exact designation), `agent_reported_label` and `agent_label_match`.
+- v5 grant commitments: `designated_agent`, serialized as `{"agent_id":<json>,"name":<json>}` in that key order, between `catalog_digest` and `session_id`.
+
+What a pass means: the user's authenticator signed a commitment that names this agent. It does not prove which software received or used the credential, and it is not a verified identity of the agent. A grant made without a passkey ceremony records the designation without a signature. Records from before November 5, 2026 carry none.

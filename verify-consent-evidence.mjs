@@ -161,6 +161,21 @@ function verifyEvidence(ev, ctx = {}) {
       check('catalog_digest present; entries not supplied, descriptions not checked (evidence endpoint: include_raw=true)', true, 'informational');
     }
   }
+  // v5 grant commitments bind designated_agent: the agent the user named for
+  // the grant on the consent page ({agent_id, name}). When the record carries
+  // a designation, it must be the one the authenticator signed. This proves
+  // what the user declared; it is not a verified identity of the agent.
+  if (pre && pre.designated_agent && typeof pre.designated_agent === 'object') {
+    const signed = pre.designated_agent;
+    const rec = ctx.designatedAgent;
+    if (rec && typeof rec === 'object') {
+      check('designated_agent in the record == the one the authenticator signed', rec.name === signed.name && (rec.agent_id ?? null) === (signed.agent_id ?? null), `signed: ${JSON.stringify(signed.name)} (declared by the user)`);
+    } else {
+      check('designated_agent signed; record supplied none to compare', true, `signed: ${JSON.stringify(signed.name)} (informational)`);
+    }
+  } else if (pre && ctx.designatedAgent && typeof ctx.designatedAgent === 'object' && kind === 'consent_grant') {
+    check('record carries a designated_agent the commitment does not bind (pre-v5 ceremony)', true, 'informational: declared on the consent page, not signed');
+  }
   const challenge = b64uEnc(sha256(Buffer.from(preimage ?? '', 'utf8')));
   check('challenge == base64url(SHA-256(preimage))', challenge === ev.challenge);
   let clientData = null;
@@ -262,15 +277,19 @@ if (Array.isArray(doc?.events)) {
   // connection_granted events carry the grant-time scope-catalog snapshot;
   // pair it with the ceremony evidence of the same connection.
   const catalogs = new Map();
+  const designations = new Map();
   for (const e of doc.events) {
     const cat = e?.metadata?.scope_catalog;
     if (e?.event === 'connection_granted' && cat && Array.isArray(cat.scopes) && e?.metadata?.connection_id) catalogs.set(e.metadata.connection_id, cat);
+    const des = e?.metadata?.designated_agent;
+    if (e?.event === 'connection_granted' && des && typeof des === 'object' && e?.metadata?.connection_id) designations.set(e.metadata.connection_id, des);
   }
   for (const e of doc.events) {
     const ev = e?.metadata?.evidence;
     if (ev && typeof ev === 'object') {
       const cat = e?.metadata?.connection_id ? catalogs.get(e.metadata.connection_id) : undefined;
-      targets.push({ label: `${e.event} ${e.id ?? ''}`.trim(), ev, ctx: cat ? { scopeCatalog: cat } : {} });
+      const des = e?.metadata?.connection_id ? designations.get(e.metadata.connection_id) : undefined;
+      targets.push({ label: `${e.event} ${e.id ?? ''}`.trim(), ev, ctx: { ...(cat ? { scopeCatalog: cat } : {}), ...(des ? { designatedAgent: des } : {}) } });
     }
   }
   if (targets.length === 0) { console.error('No events with metadata.evidence in this export (only hosted ceremonies produce evidence).'); process.exit(2); }
@@ -278,7 +297,7 @@ if (Array.isArray(doc?.events)) {
   targets.push({ label: 'bundle', ev: doc.session.evidence, ctx: { sessionPreimage: doc.session.commitment_preimage, enrolled: doc.authenticator } });
 } else if (doc?.evidence && doc?.tier !== undefined) {
   if (doc.tier !== 'hosted_vce') { console.error(`Evidence tier is "${doc.tier}", not hosted_vce: no independently verifiable evidence exists for this record (reason: ${doc.reason ?? 'n/a'}).`); process.exit(2); }
-  targets.push({ label: `connection ${doc.connection_id}`, ev: doc.evidence, ctx: { sessionPreimage: doc.commitment?.preimage, commitmentSha256: doc.commitment?.sha256, scopeCatalog: doc.scope_catalog ?? undefined } });
+  targets.push({ label: `connection ${doc.connection_id}`, ev: doc.evidence, ctx: { sessionPreimage: doc.commitment?.preimage, commitmentSha256: doc.commitment?.sha256, scopeCatalog: doc.scope_catalog ?? undefined, designatedAgent: doc.designated_agent ?? undefined } });
 } else if (doc?.evidence?.response && doc?.commitment_preimage !== undefined) {
   targets.push({ label: 'evidence', ev: doc.evidence, ctx: { sessionPreimage: doc.commitment_preimage } });
 } else if (doc?.response && doc?.challenge) {
