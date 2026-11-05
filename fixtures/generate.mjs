@@ -17,6 +17,8 @@
  *   consent-export-deleted-row.json   verify_consent_chain.py    FAIL (chain break)
  *   evidence-consent-grant.json       verify-consent-evidence.mjs PASS (evidence endpoint shape)
  *   evidence-action-confirmation.json verify-consent-evidence.mjs PASS (bare evidence object)
+ *   evidence-consent-grant-v5.json    verify-consent-evidence.mjs PASS (designated agent bound in the commitment)
+ *   evidence-designated-agent-changed.json verify-consent-evidence.mjs FAIL (record names a different agent than was signed)
  *   evidence-tampered.json            verify-consent-evidence.mjs FAIL (preimage altered after signing)
  *   trust-valid.json                  --trust flag                PASS (matching COSE key)
  *   trust-wrong-key.json              --trust flag                FAIL (different P-256 key)
@@ -143,6 +145,23 @@ const grantPreimageV4 = '{' + [
   '"issued_at":"2026-10-30T19:00:00.000Z"',
 ].join(',') + '}';
 const grantEvidenceV4 = assertion(grantPreimageV4, 9);
+// ---------- v5 grant: designated_agent, the agent the user named on the consent page (066) ----------
+const designatedAgent = { agent_id: 'agt_fixture00001', name: 'Coach Assistant' };
+const grantPreimageV5 = '{' + [
+  '"v":5',
+  '"app_id":"app_fixture"',
+  '"app_user_id":"user_fixture"',
+  '"scopes":["read:profile","read:workouts"]',
+  '"duration":"30d"',
+  '"purpose":"Weekly training summary"',
+  '"user_intent":"Summarize my workouts every Sunday"',
+  '"bounds":null',
+  `"catalog_digest":"${catalogDigest}"`,
+  `"designated_agent":{"agent_id":${JSON.stringify(designatedAgent.agent_id)},"name":${JSON.stringify(designatedAgent.name)}}`,
+  '"session_id":"csess_fixture0003"',
+  '"issued_at":"2026-11-05T21:00:00.000Z"',
+].join(',') + '}';
+const grantEvidenceV5 = assertion(grantPreimageV5, 10);
 const actionEvidence = assertion(actionPreimage, 8);
 
 // ---------- audit export (per-call chain, migration 057 shape) ----------
@@ -192,6 +211,9 @@ function consentEvents() {
   // verifier pairs the granted event's snapshot with the ceremony evidence.
   push('presence_verified', { session_id: 'csess_fixture0002', connection_id: 'conn_fixture0002', method: 'webauthn', evidence: grantEvidenceV4 });
   push('connection_granted', { connection_id: 'conn_fixture0002', scopes: ['read:profile', 'read:workouts'], agent_label: 'Coach', purpose: 'Weekly training summary', user_intent: 'Summarize my workouts every Sunday', scope_catalog: catalogSnapshot, scope_catalog_digest: catalogDigest });
+  // A third grant whose v5 ceremony also bound the agent the user named.
+  push('presence_verified', { session_id: 'csess_fixture0003', connection_id: 'conn_fixture0003', method: 'webauthn', evidence: grantEvidenceV5 });
+  push('connection_granted', { connection_id: 'conn_fixture0003', scopes: ['read:profile', 'read:workouts'], agent_label: 'Coach Assistant 2.1', designated_agent: { v: 1, source: 'user_declared', ...designatedAgent }, agent_label_match: 'match', purpose: 'Weekly training summary', user_intent: 'Summarize my workouts every Sunday', scope_catalog: catalogSnapshot, scope_catalog_digest: catalogDigest });
   push('evaluated_allow', { connection_id: 'conn_fixture0001', scope: 'read:profile' }, false);
   push('presence_verified_action', { session_id: 'asess_fixture0001', connection_id: 'conn_fixture0001', scope: 'manage:subscription', evidence: actionEvidence });
   push('evaluated_allow', { connection_id: 'conn_fixture0001', scope: 'read:workouts' }, false);
@@ -236,6 +258,27 @@ write('evidence-action-confirmation.json', actionEvidence);
   const edited = JSON.parse(JSON.stringify(body));
   edited.scope_catalog.scopes[1].description = 'Read your logged workouts and your location history';
   write('evidence-catalog-description-edited.json', edited);
+}
+{
+  const body = {
+    connection_id: 'conn_fixture0003',
+    status: 'active',
+    evidence_available: true,
+    tier: 'hosted_vce',
+    ceremony: { verified_at: grantEvidenceV5.verified_at, method: 'webauthn', uv: true, provenance: 'hosted_witnessed' },
+    authenticator_assurance: { policy: 'consumer', tier: 'user_verified_unattested', attestation_format: null, aaguid: null },
+    commitment: { sha256: sha256hex(grantPreimageV5), preimage_version: 5, preimage: grantPreimageV5 },
+    scope_catalog: { digest: catalogDigest, scope_count: 2, unregistered_at_grant: [], bound_in_commitment: true, scopes: catalogSnapshot.scopes },
+    designated_agent: { ...designatedAgent, source: 'user_declared', bound_in_commitment: true, agent_reported_label: 'Coach Assistant 2.1', agent_label_match: 'match' },
+    ledger: { granted_event_present: true, tamper_evident: true },
+    claim: 'A user-verified passkey ceremony signed a commitment to these recorded grant parameters.',
+    evidence: grantEvidenceV5,
+  };
+  write('evidence-consent-grant-v5.json', body);
+  // The record names a different agent than the one the authenticator signed.
+  const changed = JSON.parse(JSON.stringify(body));
+  changed.designated_agent.name = 'Some Other Agent';
+  write('evidence-designated-agent-changed.json', changed);
 }
 {
   const tampered = JSON.parse(JSON.stringify(actionEvidence));

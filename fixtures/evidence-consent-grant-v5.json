@@ -1,0 +1,81 @@
+{
+  "connection_id": "conn_fixture0003",
+  "status": "active",
+  "evidence_available": true,
+  "tier": "hosted_vce",
+  "ceremony": {
+    "verified_at": "2026-09-19T17:00:00.000Z",
+    "method": "webauthn",
+    "uv": true,
+    "provenance": "hosted_witnessed"
+  },
+  "authenticator_assurance": {
+    "policy": "consumer",
+    "tier": "user_verified_unattested",
+    "attestation_format": null,
+    "aaguid": null
+  },
+  "commitment": {
+    "sha256": "b1afa0151ccaf5eaa646290439dea93de3b379ba177410a350592b5d1dede758",
+    "preimage_version": 5,
+    "preimage": "{\"v\":5,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"designated_agent\":{\"agent_id\":\"agt_fixture00001\",\"name\":\"Coach Assistant\"},\"session_id\":\"csess_fixture0003\",\"issued_at\":\"2026-11-05T21:00:00.000Z\"}"
+  },
+  "scope_catalog": {
+    "digest": "6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93",
+    "scope_count": 2,
+    "unregistered_at_grant": [],
+    "bound_in_commitment": true,
+    "scopes": [
+      {
+        "name": "read:profile",
+        "registered": true,
+        "description": "Read your name, goals and training preferences",
+        "category": "Profile",
+        "confirm_each_time": false,
+        "endpoint_map_sha256": "96f7de3074e987ecf7226b5e321c6f2394a10b9081289f09e7c62424117804d0"
+      },
+      {
+        "name": "read:workouts",
+        "registered": true,
+        "description": "Read your logged workouts",
+        "category": "Fitness",
+        "confirm_each_time": false,
+        "endpoint_map_sha256": null
+      }
+    ]
+  },
+  "designated_agent": {
+    "agent_id": "agt_fixture00001",
+    "name": "Coach Assistant",
+    "source": "user_declared",
+    "bound_in_commitment": true,
+    "agent_reported_label": "Coach Assistant 2.1",
+    "agent_label_match": "match"
+  },
+  "ledger": {
+    "granted_event_present": true,
+    "tamper_evident": true
+  },
+  "claim": "A user-verified passkey ceremony signed a commitment to these recorded grant parameters.",
+  "evidence": {
+    "v": 2,
+    "ceremony": "authentication",
+    "assurance": {
+      "policy": "consumer",
+      "authenticator": "user_verified_unattested",
+      "attestation_format": null,
+      "aaguid": null
+    },
+    "credential_id": "ZVIrRMY-6F2AKtJRFFAJrw",
+    "public_key": "pQECAyYgASFYIGzJ1q_ZygvqwEylYZjvEq4bXBVeoCJrwe68NYe1fdbSIlggNE61GFSACLpC-nCRDT9jBM8iSI0tuRbHmpKi_gGkD98",
+    "challenge": "sa-gFRzK9eqmRikEOd6pPeOzeboXdBCjUFkrXR3t51g",
+    "commitment_preimage": "{\"v\":5,\"app_id\":\"app_fixture\",\"app_user_id\":\"user_fixture\",\"scopes\":[\"read:profile\",\"read:workouts\"],\"duration\":\"30d\",\"purpose\":\"Weekly training summary\",\"user_intent\":\"Summarize my workouts every Sunday\",\"bounds\":null,\"catalog_digest\":\"6f002d84101086b5af9f1bd7e9ef83de01a8de515027d58d664e7aa345db2f93\",\"designated_agent\":{\"agent_id\":\"agt_fixture00001\",\"name\":\"Coach Assistant\"},\"session_id\":\"csess_fixture0003\",\"issued_at\":\"2026-11-05T21:00:00.000Z\"}",
+    "response": {
+      "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoic2EtZ0ZSeks5ZXFtUmlrRU9kNnBQZU96ZWJvWGRCQ2pVRmtyWFIzdDUxZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnRhZG1pdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+      "authenticatorData": "XvCHSFCpsaLW22m_oamlNB0Ii8zhCG4RIkdqkYtMRtEFAAAACg",
+      "signature": "MEUCIQDlFVGGWwxqQqyjgBFcVGeHxJeFiCiIdIc5udiCKke4BAIgUOR8PWU0gR51nKnyG-BoinOG4MKTBaojY-sbINUjmw0"
+    },
+    "uv": true,
+    "verified_at": "2026-09-19T17:00:00.000Z"
+  }
+}
