@@ -40,7 +40,7 @@ Checks:
 
 Body: `{ format_version, app_id, events[], count, next_cursor, verifier }`.
 
-Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `presence_verified`, `presence_verified_action`, `policy_updated`, `scope_catalog_changed` (section 5), and the relationship and self-consent switch events, plus the evaluation events `evaluated_allow` and `evaluated_deny`.
+Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `presence_verified`, `presence_verified_action`, `policy_updated`, `scope_catalog_changed` (section 5), `agent_catalog_changed` (section 6), and the relationship and self-consent switch events, plus the evaluation events `evaluated_allow` and `evaluated_deny`.
 
 | Field | Meaning |
 | --- | --- |
@@ -141,3 +141,13 @@ An agent app (for example OpenClaw) is not the model it runs. Since the same day
 Records also carry what the agent reported about itself at exchange, unverified: `agent_reported` (`platform`, `model { id, version }`) and `agent_model_match` (`match`, `differs`, or null).
 
 A pass on the model check means the user's authenticator signed a commitment naming that model family at grant time. The agent may use other models afterwards; nothing here observes that.
+
+### Changes to the application's agent list (since November 6, 2026)
+
+When the application owner adds an entry to the agent list, changes an entry's status, or changes who users may name, the change is its own chained event, `agent_catalog_changed` (actor `user`, from the dashboard; `app_user_id` null). Its `metadata.change` is one of:
+
+- `entry_added`: `entry` (`agent_id`, `name`, `kind`: `app` or `model`) and `after.status` (`active`).
+- `entry_status_changed`: `entry`, `before.status` and `after.status` (`active`, `blocked`, or `archived`), `affected_active_connections` (how many active connections users had designated for that entry at the time; null when the count could not be read) and `affected_connection_ids` (up to 100). Recorded once per environment that held such a connection, otherwise once under `live`.
+- `policy_changed`: `before.policy` and `after.policy` (`open`: a listed entry or a typed name; `catalog_only`: listed agent apps only).
+
+The event is a record. A blocked entry cannot be named on new grants; connections that already exist are not changed by it and keep running until they expire or are revoked (their own `connection_revoked` events). Changes made before November 6, 2026 are not in the trail. The chain verifier treats the event like every other chained event; there is nothing extra to check.
