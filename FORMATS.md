@@ -52,6 +52,12 @@ Event types: `granted`, `revoked`, `connection_granted`, `connection_revoked`, `
 | `created_at` | Database server time. |
 | `prev_hash`, `row_hash`, `chain_input` | As in section 1. NULL on evaluation events and pre-chain legacy rows. |
 
+**App-level events.** `scope_catalog_changed` and `agent_catalog_changed` record a change the application owner made, not a decision about one user's data. On these two events:
+
+- `app_user_id` is null.
+- `actor` is `user` when the change came from the owner's signed-in dashboard session and `app` when it came through the application's API key. Here `user` means the application owner, not an end user of the application. `agent_catalog_changed` carries `user`, because the agent-list routes accept a dashboard session only.
+- `caller_class` is written as `external_agent` and `scope_group` is null. The column cannot be empty, the value carries no meaning on these events, and a reader should ignore it.
+
 Checks:
 
 1. **Integrity.** `hex(SHA-256(utf8(chain_input))) == row_hash` for every chained event.
